@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InclusivePay – Accessible UPI Payment App for Everyone</title>
+  <meta name="description" content="InclusivePay is a voice-first, accessible UPI payment Android app crafted specifically for visually impaired, physically disabled, hearing/speech impaired, and elderly users.">
+  <meta name="theme-color" content="#0a0a14">
+
+  <!-- Google Fonts: Poppins & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Skip to Main Content Link for Screen Readers & Keyboard Users -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Top Sticky Accessibility Quick Toolbar -->
+  <aside class="a11y-bar" aria-label="Accessibility Preferences Bar">
+    <div class="container" style="display: flex; justify-content: space-between; width: 100%;">
+      <div class="a11y-controls">
+        <span style="font-weight: 600; color: var(--text-muted);">Accessibility:</span>
+        <button id="btn-font-decrease" class="a11y-btn" aria-label="Decrease Font Size" title="Decrease font size">A-</button>
+        <button id="btn-font-reset" class="a11y-btn" aria-label="Reset Font Size" title="Reset font size">Default</button>
+        <button id="btn-font-increase" class="a11y-btn" aria-label="Increase Font Size" title="Increase font size">A+</button>
+        <button id="btn-contrast-toggle" class="a11y-btn" aria-label="Toggle High Contrast Mode" title="Toggle high contrast">
+          👁️ <span id="contrast-text">High Contrast</span>
+        </button>
+      </div>
+      <div class="a11y-controls">
+        <button id="btn-tts-toggle" class="a11y-btn" aria-label="Toggle Voice Assistant Demo" title="Enable text-to-speech assistant demo">
+          🔊 <span>Voice Reader Demo</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Header & Navigation Landmark -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="#home" class="logo" onclick="navigateToSection('home'); return false;" aria-label="InclusivePay Home">
+        <div class="logo-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="22"/>
+          </svg>
+        </div>
+        <span>InclusivePay</span>
+        <span class="logo-badge">Accessible UPI</span>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links" id="nav-links">
+          <li><a href="#home" class="nav-link active" onclick="navigateToSection('home'); return false;">Home</a></li>
+          <li><a href="#features" class="nav-link" onclick="navigateToSection('features'); return false;">Features</a></li>
+          <li><a href="#about" class="nav-link" onclick="navigateToSection('about'); return false;">About</a></li>
+          <li><a href="#screenshots" class="nav-link" onclick="navigateToSection('screenshots'); return false;">Screenshots</a></li>
+          <li><a href="#download" class="nav-link" onclick="navigateToSection('download'); return false;">Download</a></li>
+          <li><a href="#faq" class="nav-link" onclick="navigateToSection('faq'); return false;">FAQ</a></li>
+          <li><a href="#contact" class="nav-link" onclick="navigateToSection('contact'); return false;">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="btn btn-secondary" onclick="switchView('login')" aria-label="Sign in to your account">
+          Login
+        </button>
+        <button class="hamburger" id="hamburger-btn" aria-label="Toggle Navigation Menu" aria-expanded="false" aria-controls="nav-links">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       1. HOME PAGE VIEW (Main Marketing Landing View)
+       ========================================================================= -->
+  <div id="view-home" class="view-section active">
+    <main id="main-content">
+      
+      <!-- HERO SECTION -->
+      <section class="hero" id="home" aria-labelledby="hero-heading">
+        <div class="container hero-grid">
+          <div class="hero-content">
+            <div class="hero-badge">
+              <span>🎤 Voice-First Accessible UPI App</span>
+            </div>
+            <h1 id="hero-heading" class="hero-title">
+              InclusivePay – <span>Accessible UPI</span> for Everyone
+            </h1>
+            <p class="hero-subtitle">
+              Experience a smarter, safer, and more accessible way to make digital payments. Designed especially for people with visual, hearing, physical, speech disabilities and elderly users with a voice-first guidance system.
+            </p>
+            <div class="hero-ctas">
+              <button class="btn btn-primary" onclick="downloadAPK()" aria-label="Download InclusivePay Android APK">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                <span>⬇️ Download APK</span>
+              </button>
+              <a href="#features" class="btn btn-secondary" onclick="navigateToSection('features'); return false;">
+                Explore Features
+              </a>
+            </div>
+            <div class="hero-highlights">
+              <div class="highlight-item">
+                <span>⚡ 100% Free & Open</span>
+              </div>
+              <div class="highlight-item">
+                <span>🛡️ NPCI & UPI Safe</span>
+              </div>
+              <div class="highlight-item">
+                <span>♿ WCAG AAA Rated</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero App Mockup Frame (Design Reference Match) -->
+          <div class="hero-mockup-wrapper">
+            <div class="mockup-glow" aria-hidden="true"></div>
+            <div class="phone-frame">
+              <div class="phone-screen">
+                <!-- App Header Bar -->
+                <div class="app-header-bar">
+                  <div class="app-user-info">
+                    <div class="user-avatar" aria-hidden="true">A</div>
+                    <div>
+                      <div class="greeting-sub">नमस्ते (Hello)</div>
+                      <div class="greeting-name">Abhay Singh</div>
+                    </div>
+                  </div>
+                  <button class="app-icon-btn" onclick="handleNotificationClick()" title="Notifications" aria-label="View notifications">🔔</button>
+                </div>
+
+                <!-- Reference Indigo-Violet Gradient Bank Card Panel -->
+                <div class="bank-card-panel">
+                  <div class="card-top">
+                    <span class="card-bank-name">InclusivePay Digital Bank</span>
+                    <button class="btn-glass-pill" id="card-balance-toggle-btn" onclick="toggleCardBalance()" aria-label="Check Balance Toggle">
+                      <span id="balance-btn-text">चेक करें</span>
+                    </button>
+                  </div>
+                  <div class="card-balance-box">
+                    <span class="balance-lbl">Available Balance</span>
+                    <span class="balance-val" id="card-balance-val">••••••••</span>
+                  </div>
+                </div>
+
+                <!-- Reference Squircle Quick Action Tiles Grid -->
+                <div class="squircle-grid" aria-label="Quick Action Buttons">
+                  <button class="squircle-tile" onclick="handleQuickAction('send')" aria-label="Send Money">
+                    <div class="tile-icon">💸</div>
+                    <span class="tile-label">भेजें (Send)</span>
+                  </button>
+                  <button class="squircle-tile" onclick="handleQuickAction('scan')" aria-label="Scan QR Code">
+                    <div class="tile-icon">📷</div>
+                    <span class="tile-label">स्कैन (Scan)</span>
+                  </button>
+                  <button class="squircle-tile" onclick="handleQuickAction('bills')" aria-label="Pay Bills">
+                    <div class="tile-icon">📄</div>
+                    <span class="tile-label">बिल (Bills)</span>
+                  </button>
+                  <button class="squircle-tile" onclick="handleQuickAction('history')" aria-label="Transaction History">
+                    <div class="tile-icon">📜</div>
+                    <span class="tile-label">इतिहास (History)</span>
+                  </button>
+                </div>
+
+                <!-- Reference Glowing Circular Gradient Microphone Floating Action Button -->
+                <div class="mic-btn-wrapper">
+                  <button class="mic-fab-btn" onclick="speakDemo('Listening to your voice command... Say pay Ramesh 500 rupees')" aria-label="Activate Voice Assistant Command">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+                      <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                      <line x1="12" y1="19" x2="12" y2="22"/>
+                    </svg>
+                  </button>
+                  <span class="mic-hint">Tap to speak payment</span>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ACCESSIBILITY PERSONA QUICK SWITCHER -->
+      <section class="persona-section" aria-labelledby="persona-heading">
+        <div class="container">
+          <div class="section-header">
+            <span class="section-tag">Inclusive Design Solutions</span>
+            <h2 id="persona-heading" class="section-title">Crafted for Every Unique Need</h2>
+            <p class="section-desc">Select a user profile to discover how InclusivePay customizes UI, speech, touch, and guidance feedback.</p>
+          </div>
+
+          <div class="persona-tabs" role="tablist" aria-label="Accessibility Persona Selector">
+            <button class="persona-tab active" role="tab" aria-selected="true" id="tab-visual" onclick="selectPersona('visual')" aria-controls="persona-card-visual">
+              👁️ Visually Impaired
+            </button>
+            <button class="persona-tab" role="tab" aria-selected="false" id="tab-physical" onclick="selectPersona('physical')" aria-controls="persona-card-physical">
+              🖐️ Physical Disabled
+            </button>
+            <button class="persona-tab" role="tab" aria-selected="false" id="tab-hearing" onclick="selectPersona('hearing')" aria-controls="persona-card-hearing">
+              👂 Hearing & Speech
+            </button>
+            <button class="persona-tab" role="tab" aria-selected="false" id="tab-elderly" onclick="selectPersona('elderly')" aria-controls="persona-card-elderly">
+              👴 Elderly Citizens
+            </button>
+          </div>
+
+          <div class="glass-card persona-content-card" id="persona-display-card">
+            <div class="persona-info">
+              <h3 id="persona-title">Voice-Guided Assist for Visually Impaired</h3>
+              <p id="persona-desc">Full screen-reader compatibility with TalkBack/VoiceOver, complete voice command navigation, audio confirmation of recipient names and transaction amounts, and high contrast tactile design.</p>
+              <ul class="persona-feature-list" id="persona-list">
+                <li><span>✓</span> Continuous voice prompt navigation & confirmation</li>
+                <li><span>✓</span> Sound & haptic pattern feedback on keypress</li>
+                <li><span>✓</span> Auto speech feedback of remaining bank balance</li>
+              </ul>
+            </div>
+            <div class="screenshot-box" style="aspect-ratio: 16/9;">
+              <div class="screenshot-mock-ui">
+                <span class="screenshot-icon">🎤</span>
+                <span style="font-weight: 600; color: var(--color-primary-light);">"Pay ₹500 to Ramesh Sharma"</span>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Audio feedback: "Confirming transfer of 500 rupees..."</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURES SECTION -->
+      <section class="features-section" id="features" aria-labelledby="features-heading">
+        <div class="container">
+          <div class="section-header">
+            <span class="section-tag">Powerful Features</span>
+            <h2 id="features-heading" class="section-title">Built Without Accessibility Compromises</h2>
+            <p class="section-desc">Every single feature is engineered from the ground up to ensure seamless, dignifying UPI payment access.</p>
+          </div>
+
+          <div class="features-grid">
+            <article class="glass-card feature-card">
+              <div class="feature-icon-wrapper" aria-hidden="true">🎤</div>
+              <h3 class="feature-title">Voice Navigation</h3>
+              <p class="feature-desc">Perform entire UPI transactions by speaking naturally in regional Indian languages with automatic speech recognition.</p>
+            </article>
+
+            <article class="glass-card feature-card">
+              <div class="feature-icon-wrapper" aria-hidden="true">🔊</div>
+              <h3 class="feature-title">Screen Reader Support</h3>
+              <p class="feature-desc">Native screen-reader hooks optimized for Android TalkBack with informative semantic ARIA labels and landmarks.</p>
+            </article>
+
+            <article class="glass-card feature-card">
+              <div class="feature-icon-wrapper" aria-hidden="true">👆</div>
+              <h3 class="feature-title">Large Touch Buttons</h3>
+              <p class="feature-desc">Extra-large hit targets (minimum 48px to 64px height) prevent accidental taps and reduce tremor stress.</p>
+            </article>
+
+            <article class="glass-card feature-card">
+              <div class="feature-icon-wrapper" aria-hidden="true">🌙</div>
+              <h3 class="feature-title">Dark & High Contrast</h3>
+              <p class="feature-desc">Eye-friendly deep dark canvas with bright glowing indigo highlights and switchable WCAG AAA high contrast mode.</p>
+            </article>
+
+            <article class="glass-card feature-card">
+              <div class="feature-icon-wrapper" aria-hidden="true">🌐</div>
+              <h3 class="feature-title">Multiple Languages</h3>
+              <p class="feature-desc">Seamless support for Hindi, English, Tamil, Telugu, Marathi, Gujarati, Bengali, and other official regional languages.</p>
+            </article>
+
+            <article class="glass-card feature-card">
+              <div class="feature-icon-wrapper" aria-hidden="true">🔐</div>
+              <h3 class="feature-title">Secure Authentication</h3>
+              <p class="feature-desc">Fingerprint, Face Unlock, and voice-assisted secure PIN entry compliant with NPCI UPI security standards.</p>
+            </article>
+
+            <article class="glass-card feature-card">
+              <div class="feature-icon-wrapper" aria-hidden="true">⚡</div>
+              <h3 class="feature-title">Fast Payments</h3>
+              <p class="feature-desc">Instant 1-tap & voice-triggered money transfer directly linked to bank accounts with real-time audio receipt.</p>
+            </article>
+
+            <article class="glass-card feature-card">
+              <div class="feature-icon-wrapper" aria-hidden="true">♿</div>
+              <h3 class="feature-title">Designed for Accessibility</h3>
+              <p class="feature-desc">Co-designed with disability advocates and accessibility specialists to ensure independence in daily transactions.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT SECTION -->
+      <section class="about-section" id="about" aria-labelledby="about-heading">
+        <div class="container about-grid">
+          <div class="about-text">
+            <span class="section-tag">Our Core Mission</span>
+            <h2 id="about-heading" class="section-title">Empowering Financial Freedom For Everyone</h2>
+            <p>
+              InclusivePay is built to make UPI payments easier and more accessible for everyone, especially users with disabilities. It focuses on accessibility, ease of use, voice guidance, and inclusive design so every person can confidently perform digital transactions without depending on others.
+            </p>
+            <p>
+              By removing visual barriers, small touch targets, and complex submenus, InclusivePay gives elderly citizens and disabled individuals the dignity of total financial independence.
+            </p>
+          </div>
+
+          <div class="about-stats">
+            <div class="glass-card stat-card">
+              <div class="stat-number">100%</div>
+              <div class="stat-label">Free & Non-Profit</div>
+            </div>
+            <div class="glass-card stat-card">
+              <div class="stat-number">10+</div>
+              <div class="stat-label">Indian Languages</div>
+            </div>
+            <div class="glass-card stat-card">
+              <div class="stat-number">4.9 ★</div>
+              <div class="stat-label">User Satisfaction</div>
+            </div>
+            <div class="glass-card stat-card">
+              <div class="stat-number">WCAG</div>
+              <div class="stat-label">AAA Compliant</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREENSHOTS / WALKTHROUGH SECTION -->
+      <section class="screenshots-section" id="screenshots" aria-labelledby="screenshots-heading">
+        <div class="container">
+          <div class="section-header">
+            <span class="section-tag">App Preview</span>
+            <h2 id="screenshots-heading" class="section-title">Explore App Interfaces</h2>
+            <p class="section-desc">A visual glimpse into InclusivePay's clean, high-contrast visual screens.</p>
+          </div>
+
+          <div class="screenshots-grid">
+            <div class="glass-card screenshot-card">
+              <div class="screenshot-box">
+                <div class="screenshot-mock-ui">
+                  <span class="screenshot-icon">📱</span>
+                  <span class="screenshot-title">Home Dashboard</span>
+                  <span class="screenshot-caption">Quick balance reveal & large squircle tiles</span>
+                </div>
+              </div>
+              <h3 class="screenshot-title">1. Home Screen</h3>
+              <p class="screenshot-caption">Clean, minimal interface with voice trigger and clear balance card.</p>
+            </div>
+
+            <div class="glass-card screenshot-card">
+              <div class="screenshot-box">
+                <div class="screenshot-mock-ui">
+                  <span class="screenshot-icon">🎙️</span>
+                  <span class="screenshot-title">Voice Payment</span>
+                  <span class="screenshot-caption">Speak payment details with sound confirmations</span>
+                </div>
+              </div>
+              <h3 class="screenshot-title">2. Voice Payment</h3>
+              <p class="screenshot-caption">Speak recipient and amount naturally in your mother tongue.</p>
+            </div>
+
+            <div class="glass-card screenshot-card">
+              <div class="screenshot-box">
+                <div class="screenshot-mock-ui">
+                  <span class="screenshot-icon">💳</span>
+                  <span class="screenshot-title">Balance Check</span>
+                  <span class="screenshot-caption">Accessible 1-tap balance speak and hide toggle</span>
+                </div>
+              </div>
+              <h3 class="screenshot-title">3. Balance Check</h3>
+              <p class="screenshot-caption">Discreet audio feedback and high-visibility text layout.</p>
+            </div>
+
+            <div class="glass-card screenshot-card">
+              <div class="screenshot-box">
+                <div class="screenshot-mock-ui">
+                  <span class="screenshot-icon">📲</span>
+                  <span class="screenshot-title">Send Money</span>
+                  <span class="screenshot-caption">Large phone keypad & QR scanner with sound cues</span>
+                </div>
+              </div>
+              <h3 class="screenshot-title">4. Send Money</h3>
+              <p class="screenshot-caption">Spacious touch buttons with audio/haptic feedback on keypress.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DOWNLOAD SECTION -->
+      <section class="download-section" id="download" aria-labelledby="download-heading">
+        <div class="container">
+          <div class="download-hero-card">
+            <span class="download-badge">Android APK • Official Release</span>
+            <h2 id="download-heading" class="section-title">Download InclusivePay Today</h2>
+            <p class="section-desc" style="max-width: 580px;">
+              Get the latest version of InclusivePay directly to your Android device and experience accessible, voice-first UPI payments.
+            </p>
+
+            <button class="btn btn-primary" onclick="downloadAPK()" style="padding: 1.1rem 2.5rem; font-size: 1.1rem;" aria-label="Download InclusivePay APK file">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              <span>⬇️ Download InclusivePay APK</span>
+            </button>
+
+            <div class="download-meta">
+              <div class="meta-item">📦 <span>File Size: <strong>18.5 MB</strong></span></div>
+              <div class="meta-item">🏷️ <span>Version: <strong>v2.4.0 (Latest)</strong></span></div>
+              <div class="meta-item">🤖 <span>Requirement: <strong>Android 8.0+</strong></span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ SECTION -->
+      <section class="faq-section" id="faq" aria-labelledby="faq-heading">
+        <div class="container">
+          <div class="section-header">
+            <span class="section-tag">Help & Support</span>
+            <h2 id="faq-heading" class="section-title">Frequently Asked Questions</h2>
+            <p class="section-desc">Got questions about InclusivePay? Here are answers to common inquiries.</p>
+          </div>
+
+          <div class="faq-accordion" id="faq-accordion">
+            <div class="faq-item">
+              <button class="faq-header" aria-expanded="false" aria-controls="faq-ans-1" id="faq-btn-1" onclick="toggleFAQ(this)">
+                <span>What is InclusivePay?</span>
+                <span class="faq-icon" aria-hidden="true">▼</span>
+              </button>
+              <div class="faq-body" id="faq-ans-1" role="region" aria-labelledby="faq-btn-1">
+                <p>InclusivePay is an accessible, voice-first UPI payment Android application designed specifically for users with visual impairments, hearing/speech challenges, motor disabilities, and elderly individuals to make digital payments independently.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-header" aria-expanded="false" aria-controls="faq-ans-2" id="faq-btn-2" onclick="toggleFAQ(this)">
+                <span>Is InclusivePay completely free to use?</span>
+                <span class="faq-icon" aria-hidden="true">▼</span>
+              </button>
+              <div class="faq-body" id="faq-ans-2" role="region" aria-labelledby="faq-btn-2">
+                <p>Yes! InclusivePay is 100% free with no hidden charges or subscription fees. It complies with NPCI zero-MDR guidelines for standard UPI transactions across Indian banks.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-header" aria-expanded="false" aria-controls="faq-ans-3" id="faq-btn-3" onclick="toggleFAQ(this)">
+                <span>Is it secure and approved for UPI payments?</span>
+                <span class="faq-icon" aria-hidden="true">▼</span>
+              </button>
+              <div class="faq-body" id="faq-ans-3" role="region" aria-labelledby="faq-btn-3">
+                <p>Absolutely. InclusivePay adheres to official NPCI UPI security specifications, requiring bank-grade biometric authentication and encrypted UPI PIN verification for every single payment.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-header" aria-expanded="false" aria-controls="faq-ans-4" id="faq-btn-4" onclick="toggleFAQ(this)">
+                <span>Who can use InclusivePay?</span>
+                <span class="faq-icon" aria-hidden="true">▼</span>
+              </button>
+              <div class="faq-body" id="faq-ans-4" role="region" aria-labelledby="faq-btn-4">
+                <p>Anyone with an active Indian bank account linked to a mobile number can use InclusivePay. While specially built for disabled and elderly citizens, its clean voice-first UI makes payments easier for all users.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-header" aria-expanded="false" aria-controls="faq-ans-5" id="faq-btn-5" onclick="toggleFAQ(this)">
+                <span>How do I install the APK file on Android?</span>
+                <span class="faq-icon" aria-hidden="true">▼</span>
+              </button>
+              <div class="faq-body" id="faq-ans-5" role="region" aria-labelledby="faq-btn-5">
+                <p>Click the "Download APK" button, open the downloaded file on your Android phone, enable "Install from Unknown Sources" if prompted by your browser, and tap "Install".</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-header" aria-expanded="false" aria-controls="faq-ans-6" id="faq-btn-6" onclick="toggleFAQ(this)">
+                <span>Can I update the app in the future?</span>
+                <span class="faq-icon" aria-hidden="true">▼</span>
+              </button>
+              <div class="faq-body" id="faq-ans-6" role="region" aria-labelledby="faq-btn-6">
+                <p>Yes. InclusivePay features an automatic in-app update notification system whenever a new version is released on our official site.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT SECTION -->
+      <section class="contact-section" id="contact" aria-labelledby="contact-heading">
+        <div class="container">
+          <div class="section-header">
+            <span class="section-tag">Get In Touch</span>
+            <h2 id="contact-heading" class="section-title">We’re Here to Help</h2>
+            <p class="section-desc">Have feedback, accessibility suggestions, or support questions? Send us a message.</p>
+          </div>
+
+          <div class="glass-card contact-card">
+            <!-- Toast Feedback Banner -->
+            <div class="alert-box alert-success" id="contact-alert-success" role="status" aria-live="polite">
+              Thanks for reaching out! We've received your message and will respond shortly.
+            </div>
+
+            <form id="contact-form" onsubmit="handleContactSubmit(event)" novalidate>
+              <div class="form-group" id="group-contact-name">
+                <label for="contact-name" class="form-label">Full Name</label>
+                <input type="text" id="contact-name" class="form-input" placeholder="e.g. Abhay Singh" required aria-required="true">
+                <span class="form-error">Please enter your full name.</span>
+              </div>
+
+              <div class="form-group" id="group-contact-email">
+                <label for="contact-email" class="form-label">Email Address</label>
+                <input type="email" id="contact-email" class="form-input" placeholder="name@example.com" required aria-required="true">
+                <span class="form-error">Please enter a valid email address.</span>
+              </div>
+
+              <div class="form-group" id="group-contact-msg">
+                <label for="contact-msg" class="form-label">Message / Accessibility Feedback</label>
+                <textarea id="contact-msg" class="form-textarea" placeholder="How can we assist you?" required aria-required="true"></textarea>
+                <span class="form-error">Please write a message before sending.</span>
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="width: 100%;">
+                Send Message
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER LANDMARK -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <div class="logo">
+              <div class="logo-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                  <line x1="12" y1="19" x2="12" y2="22"/>
+                </svg>
+              </div>
+              <span>InclusivePay</span>
+            </div>
+            <p>Made with ❤️ for Accessibility and universal financial inclusion across India.</p>
+          </div>
+
+          <div>
+            <h4 class="footer-title">Quick Links</h4>
+            <ul class="footer-links">
+              <li><a href="#home" onclick="navigateToSection('home'); return false;">Home</a></li>
+              <li><a href="#features" onclick="navigateToSection('features'); return false;">Features</a></li>
+              <li><a href="#about" onclick="navigateToSection('about'); return false;">About Us</a></li>
+              <li><a href="#download" onclick="navigateToSection('download'); return false;">Download APK</a></li>
+              <li><a href="#faq" onclick="navigateToSection('faq'); return false;">FAQ</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="footer-title">Legal & Accessibility</h4>
+            <ul class="footer-links">
+              <li><a href="#privacy" onclick="showModal('Privacy Policy', 'InclusivePay respects user privacy. No personal transaction data or telemetry is collected by this website.'); return false;">Privacy Policy</a></li>
+              <li><a href="#terms" onclick="showModal('Terms of Service', 'InclusivePay is an open accessibility initiative. All app resources and code are provided free for universal usage.'); return false;">Terms of Service</a></li>
+              <li><a href="#a11y-statement" onclick="showModal('Accessibility Statement', 'InclusivePay is engineered to strictly conform with WCAG 2.1 Level AAA guidelines, including TalkBack compatibility, high contrast mode, and voice controls.'); return false;">Accessibility Statement</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <span>&copy; <span id="copyright-year">2026</span> InclusivePay. All rights reserved.</span>
+          <span>Promotional Website for Android APK</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- =========================================================================
+       2. LOGIN PAGE VIEW
+       ========================================================================= -->
+  <div id="view-login" class="view-section">
+    <div class="auth-view-wrapper">
+      <div class="glass-card auth-card">
+        <div class="auth-header">
+          <h1 class="auth-title">Welcome Back</h1>
+          <p class="auth-subtitle">Login to your InclusivePay account</p>
+        </div>
+
+        <div class="alert-box alert-error" id="login-alert-error" role="alert" aria-live="assertive"></div>
+        <div class="alert-box alert-success" id="login-alert-success" role="status" aria-live="polite"></div>
+
+        <form id="login-form" onsubmit="handleLoginSubmit(event)" novalidate>
+          <div class="form-group" id="group-login-email">
+            <label for="login-email" class="form-label">Email Address</label>
+            <input type="email" id="login-email" class="form-input" placeholder="name@example.com" required aria-required="true">
+            <span class="form-error">Please enter a valid email address.</span>
+          </div>
+
+          <div class="form-group" id="group-login-pwd">
+            <label for="login-pwd" class="form-label">Password</label>
+            <input type="password" id="login-pwd" class="form-input" placeholder="••••••••" required aria-required="true">
+            <span class="form-error">Please enter your password.</span>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%;">
+            Login
+          </button>
+        </form>
+
+        <div class="auth-links">
+          <a href="#forgot" onclick="alert('Password reset link sent to your email (Demo).'); return false;">Forgot Password?</a>
+          <a href="#signup" onclick="switchView('signup'); return false;">Create New Account</a>
+        </div>
+
+        <div style="text-align: center; margin-top: 1rem;">
+          <button class="btn btn-secondary" onclick="switchView('home')" style="width: 100%;">
+            ← Back to Home Page
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       3. SIGN UP PAGE VIEW
+       ========================================================================= -->
+  <div id="view-signup" class="view-section">
+    <div class="auth-view-wrapper">
+      <div class="glass-card auth-card">
+        <div class="auth-header">
+          <h1 class="auth-title">Create Account</h1>
+          <p class="auth-subtitle">Join InclusivePay for accessible UPI payments</p>
+        </div>
+
+        <div class="alert-box alert-error" id="signup-alert-error" role="alert" aria-live="assertive"></div>
+        <div class="alert-box alert-success" id="signup-alert-success" role="status" aria-live="polite"></div>
+
+        <form id="signup-form" onsubmit="handleSignupSubmit(event)" novalidate>
+          <div class="form-group" id="group-signup-name">
+            <label for="signup-name" class="form-label">Full Name</label>
+            <input type="text" id="signup-name" class="form-input" placeholder="Abhay Singh" required aria-required="true">
+            <span class="form-error">Please enter your full name.</span>
+          </div>
+
+          <div class="form-group" id="group-signup-email">
+            <label for="signup-email" class="form-label">Email Address</label>
+            <input type="email" id="signup-email" class="form-input" placeholder="name@example.com" required aria-required="true">
+            <span class="form-error">Please enter a valid email address.</span>
+          </div>
+
+          <div class="form-group" id="group-signup-mobile">
+            <label for="signup-mobile" class="form-label">Mobile Number (10 digits)</label>
+            <input type="tel" id="signup-mobile" class="form-input" placeholder="9876543210" maxlength="10" required aria-required="true">
+            <span class="form-error">Please enter a valid 10-digit mobile number.</span>
+          </div>
+
+          <div class="form-group" id="group-signup-pwd">
+            <label for="signup-pwd" class="form-label">Password</label>
+            <input type="password" id="signup-pwd" class="form-input" placeholder="••••••••" required aria-required="true">
+            <span class="form-error">Password is required (min 6 characters).</span>
+          </div>
+
+          <div class="form-group" id="group-signup-confirm-pwd">
+            <label for="signup-confirm-pwd" class="form-label">Confirm Password</label>
+            <input type="password" id="signup-confirm-pwd" class="form-input" placeholder="••••••••" required aria-required="true">
+            <span class="form-error">Passwords do not match.</span>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%;">
+            Create Account
+          </button>
+        </form>
+
+        <div style="text-align: center; margin-top: 1rem; font-size: var(--text-xs); color: var(--text-muted);">
+          Already have an account? 
+          <a href="#login" onclick="switchView('login'); return false;" style="color: var(--color-primary-light); font-weight: 600;">Login here</a>
+        </div>
+
+        <div style="text-align: center; margin-top: 0.5rem;">
+          <button class="btn btn-secondary" onclick="switchView('home')" style="width: 100%;">
+            ← Back to Home Page
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
