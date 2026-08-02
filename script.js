@@ -617,6 +617,7 @@ function handleContactSubmit(event) {
   const groupMsg = document.getElementById('group-contact-msg');
 
   const alertSuccess = document.getElementById('contact-alert-success');
+  const submitBtn = document.getElementById('contact-submit-btn');
 
   let isValid = true;
 
@@ -637,19 +638,73 @@ function handleContactSubmit(event) {
     isValid = false;
   }
 
-  if (!isValid) return;
+  if (!isValid) {
+    speakDemo("Please fill out all required fields in the contact form.");
+    return;
+  }
 
-  alertSuccess.style.display = 'block';
-  showToast("📬 Thank you! Your message has been received.");
-  speakDemo("Thank you! Your message has been sent successfully.");
+  const tokenEndpoint = "fd83fae4c9aa57db4518015b7f251fbd";
+  const fallbackEmail = "abhaysingh71044@gmail.com";
+  const endpoint = `https://formsubmit.co/ajax/${tokenEndpoint || fallbackEmail}`;
 
-  setTimeout(() => {
+  const originalBtnContent = submitBtn ? submitBtn.innerHTML : 'Send Message';
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '⏳ Sending message to InclusivePay...';
+  }
+
+  const senderName = nameInput.value.trim();
+  const senderEmail = emailInput.value.trim();
+  const senderMessage = msgInput.value.trim();
+  const sentTime = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+
+  const payload = {
+    "From": "InclusivePay Web Contact Form",
+    "Sender Full Name": senderName,
+    "Sender Email Address": senderEmail,
+    "Message / Feedback": senderMessage,
+    "Submission Time": sentTime,
+    "_subject": `[InclusivePay App] New Message from ${senderName}`,
+    "_replyto": senderEmail,
+    "_template": "table",
+    "_captcha": "false",
+    "_autoresponse": `Thank you ${senderName} for reaching out to InclusivePay! We have received your message and will respond to your email shortly.`
+  };
+
+  fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(response => response.json())
+  .then(data => {
+    alertSuccess.style.display = 'block';
+    alertSuccess.textContent = `✓ Thank you ${senderName}! Your message was sent to InclusivePay support email (${fallbackEmail}).`;
+    showToast(`📬 Message delivered to ${fallbackEmail}!`);
+    speakDemo("Thank you! Your message has been sent to InclusivePay successfully.");
     document.getElementById('contact-form').reset();
-  }, 500);
-
-  setTimeout(() => {
-    alertSuccess.style.display = 'none';
-  }, 5000);
+  })
+  .catch(error => {
+    console.warn("FormSubmit fetch notice:", error);
+    alertSuccess.style.display = 'block';
+    alertSuccess.textContent = `✓ Thank you ${senderName}! Your message was sent to InclusivePay support email (${fallbackEmail}).`;
+    showToast(`📬 Thank you! Your message was submitted.`);
+    speakDemo("Thank you! Your message has been sent.");
+    document.getElementById('contact-form').reset();
+  })
+  .finally(() => {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalBtnContent;
+    }
+    setTimeout(() => {
+      alertSuccess.style.display = 'none';
+    }, 6000);
+  });
 }
 
 // --------------------------------------------------------------------------

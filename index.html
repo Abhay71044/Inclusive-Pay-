@@ -415,7 +415,7 @@
             </button>
 
             <div class="download-meta">
-              <div class="meta-item">📦 <span>File Size: <strong>18.5 MB</strong></span></div>
+              <div class="meta-item">📦 <span>File Size: <strong>245.5 MB</strong></span></div>
               <div class="meta-item">🏷️ <span>Version: <strong>v2.4.0 (Latest)</strong></span></div>
               <div class="meta-item">🤖 <span>Requirement: <strong>Android 8.0+</strong></span></div>
             </div>
@@ -512,25 +512,31 @@
             </div>
 
             <form id="contact-form" onsubmit="handleContactSubmit(event)" novalidate>
+              <!-- FormSubmit Configuration Fields for Beautiful Email Layout -->
+              <input type="hidden" name="_subject" value="[InclusivePay] New Contact Message">
+              <input type="hidden" name="_template" value="table">
+              <input type="hidden" name="_captcha" value="false">
+              <input type="hidden" name="Portal" value="InclusivePay Accessible UPI App">
+
               <div class="form-group" id="group-contact-name">
                 <label for="contact-name" class="form-label">Full Name</label>
-                <input type="text" id="contact-name" class="form-input" placeholder="e.g. Abhay Singh" required aria-required="true">
+                <input type="text" id="contact-name" name="Full Name" class="form-input" placeholder="e.g. Abhay Singh" required aria-required="true">
                 <span class="form-error">Please enter your full name.</span>
               </div>
 
               <div class="form-group" id="group-contact-email">
                 <label for="contact-email" class="form-label">Email Address</label>
-                <input type="email" id="contact-email" class="form-input" placeholder="name@example.com" required aria-required="true">
+                <input type="email" id="contact-email" name="Sender Email" class="form-input" placeholder="name@example.com" required aria-required="true">
                 <span class="form-error">Please enter a valid email address.</span>
               </div>
 
               <div class="form-group" id="group-contact-msg">
                 <label for="contact-msg" class="form-label">Message / Accessibility Feedback</label>
-                <textarea id="contact-msg" class="form-textarea" placeholder="How can we assist you?" required aria-required="true"></textarea>
+                <textarea id="contact-msg" name="Message Content" class="form-textarea" placeholder="How can we assist you?" required aria-required="true"></textarea>
                 <span class="form-error">Please write a message before sending.</span>
               </div>
 
-              <button type="submit" class="btn btn-primary" style="width: 100%;">
+              <button type="submit" id="contact-submit-btn" class="btn btn-primary" style="width: 100%;">
                 Send Message
               </button>
             </form>
