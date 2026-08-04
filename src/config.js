@@ -14,8 +14,6 @@ export const firebaseConfig = {
   appId: "1:640252650728:web:78f9ec30ba66a564f2955d"
 };
 
-export const MONGODB_URI = "mongodb+srv://abhaysingh71044_db_user:sG6cyBdBvX1qXw2L@cluster0.6bdccei.mongodb.net/inclusivepay?retryWrites=true&w=majority";
-
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://inclusivepay-backend.onrender.com";
 
 export const downloadAPKFile = (speak, showToast) => {
