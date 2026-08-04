@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+  }
+}
+
+/* High Contrast Mode CSS Overrides */
+body.high-contrast-mode {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+body.high-contrast-mode * {
+  border-color: #ffff00 !important;
+}
+
+body.high-contrast-mode button,
+body.high-contrast-mode a {
+  background-color: #000000 !important;
+  color: #ffff00 !important;
+  outline: 2px solid #ffff00 !important;
+}
+
+body.high-contrast-mode button:hover,
+body.high-contrast-mode a:hover {
+  background-color: #ffff00 !important;
+  color: #000000 !important;
+}
+
+body.high-contrast-mode .glass-card,
+body.high-contrast-mode .bg-slate-900\/60,
+body.high-contrast-mode .bg-slate-900\/80 {
+  background-color: #050505 !important;
+  border: 2px solid #00ffff !important;
+}
+
+/* Custom Utilities for Glassmorphism & Animations */
+.glass-card {
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card-hover:hover {
+  transform: translateY(-4px);
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.25);
+}
+
+.glow-purple {
+  box-shadow: 0 0 50px -10px rgba(99, 102, 241, 0.35);
+}
+
+/* Pulse Glow Animation */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(168, 85, 247, 0.7);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s infinite ease-in-out;
+}

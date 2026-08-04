@@ -25,7 +25,7 @@ function downloadAPK() {
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(blobUrl);
-    
+
     showToast("⬇️ InclusivePay_v2.4.0.apk downloaded successfully!");
   } else {
     const link = document.createElement("a");
@@ -44,7 +44,7 @@ function downloadAPK() {
 // --------------------------------------------------------------------------
 function switchView(viewId, autoScroll = true) {
   const views = ['home', 'login', 'signup'];
-  
+
   views.forEach(v => {
     const el = document.getElementById(`view-${v}`);
     if (el) {
@@ -102,7 +102,7 @@ function navigateToSection(sectionId) {
     const navbarHeight = document.querySelector('.navbar')?.offsetHeight || 80;
     const a11yBarHeight = document.querySelector('.a11y-bar')?.offsetHeight || 35;
     const totalOffset = navbarHeight + a11yBarHeight + 10;
-    
+
     const elementPosition = targetEl.getBoundingClientRect().top;
     const offsetPosition = elementPosition + window.pageYOffset - totalOffset;
 
@@ -280,7 +280,7 @@ function selectPersona(type) {
 
   if (titleEl) titleEl.textContent = data.title;
   if (descEl) descEl.textContent = data.desc;
-  
+
   if (listEl) {
     listEl.innerHTML = data.features.map(f => `<li><span>✓</span> ${f}</li>`).join('');
   }
@@ -378,12 +378,22 @@ function speakDemo(text) {
 function initMobileNav() {
   const hamburgerBtn = document.getElementById('hamburger-btn');
   const navLinks = document.getElementById('nav-links');
+  const overlay = document.getElementById('mobile-nav-overlay');
 
   if (hamburgerBtn && navLinks) {
-    hamburgerBtn.addEventListener('click', () => {
+    hamburgerBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       const isOpen = navLinks.classList.toggle('is-open');
       hamburgerBtn.classList.toggle('is-active', isOpen);
       hamburgerBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      if (overlay) overlay.classList.toggle('is-active', isOpen);
+    });
+
+    // Auto close drawer when tapping any link
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        closeMobileNav();
+      });
     });
   }
 }
@@ -391,10 +401,15 @@ function initMobileNav() {
 function closeMobileNav() {
   const hamburgerBtn = document.getElementById('hamburger-btn');
   const navLinks = document.getElementById('nav-links');
+  const overlay = document.getElementById('mobile-nav-overlay');
+
   if (hamburgerBtn && navLinks) {
     navLinks.classList.remove('is-open');
     hamburgerBtn.classList.remove('is-active');
     hamburgerBtn.setAttribute('aria-expanded', 'false');
+  }
+  if (overlay) {
+    overlay.classList.remove('is-active');
   }
 }
 
@@ -493,7 +508,7 @@ const mobileRegex = /^[0-9]{10}$/;
 
 function handleLoginSubmit(event) {
   event.preventDefault();
-  
+
   const emailInput = document.getElementById('login-email');
   const pwdInput = document.getElementById('login-pwd');
   const groupEmail = document.getElementById('group-login-email');
@@ -531,6 +546,12 @@ function handleLoginSubmit(event) {
   speakDemo("Login successful! Returning to home dashboard.");
 
   setTimeout(() => {
+    const userEmail = emailInput.value.trim();
+    updateNavUserProfile({
+      displayName: userEmail.split('@')[0],
+      email: userEmail,
+      photoURL: ''
+    });
     emailInput.value = '';
     pwdInput.value = '';
     alertSuccess.style.display = 'none';
@@ -680,31 +701,31 @@ function handleContactSubmit(event) {
     },
     body: JSON.stringify(payload)
   })
-  .then(response => response.json())
-  .then(data => {
-    alertSuccess.style.display = 'block';
-    alertSuccess.textContent = `✓ Thank you ${senderName}! Your message was sent to InclusivePay support email (${fallbackEmail}).`;
-    showToast(`📬 Message delivered to ${fallbackEmail}!`);
-    speakDemo("Thank you! Your message has been sent to InclusivePay successfully.");
-    document.getElementById('contact-form').reset();
-  })
-  .catch(error => {
-    console.warn("FormSubmit fetch notice:", error);
-    alertSuccess.style.display = 'block';
-    alertSuccess.textContent = `✓ Thank you ${senderName}! Your message was sent to InclusivePay support email (${fallbackEmail}).`;
-    showToast(`📬 Thank you! Your message was submitted.`);
-    speakDemo("Thank you! Your message has been sent.");
-    document.getElementById('contact-form').reset();
-  })
-  .finally(() => {
-    if (submitBtn) {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = originalBtnContent;
-    }
-    setTimeout(() => {
-      alertSuccess.style.display = 'none';
-    }, 6000);
-  });
+    .then(response => response.json())
+    .then(data => {
+      alertSuccess.style.display = 'block';
+      alertSuccess.textContent = `✓ Thank you ${senderName}! Your message was sent to InclusivePay support email (${fallbackEmail}).`;
+      showToast(`📬 Message delivered to ${fallbackEmail}!`);
+      speakDemo("Thank you! Your message has been sent to InclusivePay successfully.");
+      document.getElementById('contact-form').reset();
+    })
+    .catch(error => {
+      console.warn("FormSubmit fetch notice:", error);
+      alertSuccess.style.display = 'block';
+      alertSuccess.textContent = `✓ Thank you ${senderName}! Your message was sent to InclusivePay support email (${fallbackEmail}).`;
+      showToast(`📬 Thank you! Your message was submitted.`);
+      speakDemo("Thank you! Your message has been sent.");
+      document.getElementById('contact-form').reset();
+    })
+    .finally(() => {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnContent;
+      }
+      setTimeout(() => {
+        alertSuccess.style.display = 'none';
+      }, 6000);
+    });
 }
 
 // --------------------------------------------------------------------------
@@ -712,7 +733,7 @@ function handleContactSubmit(event) {
 // --------------------------------------------------------------------------
 function initScrollObserver() {
   const cards = document.querySelectorAll('.glass-card, .screenshot-card, .feature-card');
-  
+
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -768,3 +789,487 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+/* ==========================================================================
+   ENTERPRISE TOAST NOTIFICATION SYSTEM
+   ========================================================================== */
+function showToast(title, message, type = 'info', duration = 4000) {
+  const container = document.getElementById('toast-container');
+  if (!container) return;
+
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+
+  const iconMap = {
+    success: '✅',
+    error: '❌',
+    info: 'ℹ️'
+  };
+
+  toast.innerHTML = `
+    <div class="toast-icon">${iconMap[type] || '🔔'}</div>
+    <div class="toast-body">
+      <div class="toast-title">${title}</div>
+      <div class="toast-message">${message}</div>
+    </div>
+  `;
+
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(10px) scale(0.95)';
+    setTimeout(() => toast.remove(), 300);
+  }, duration);
+}
+
+/* ==========================================================================
+   PASSWORD STRENGTH METER ENGINE
+   ========================================================================== */
+function checkPasswordStrength(password) {
+  const seg1 = document.getElementById('meter-seg-1');
+  const seg2 = document.getElementById('meter-seg-2');
+  const seg3 = document.getElementById('meter-seg-3');
+  const label = document.getElementById('password-strength-text');
+
+  if (!seg1 || !seg2 || !seg3 || !label) return;
+
+  let score = 0;
+  if (password.length >= 6) score++;
+  if (password.length >= 8 && /[A-Z]/.test(password)) score++;
+  if (password.length >= 10 && /[0-9]/.test(password) && /[^A-Za-z0-9]/.test(password)) score++;
+
+  seg1.style.background = 'rgba(255,255,255,0.1)';
+  seg2.style.background = 'rgba(255,255,255,0.1)';
+  seg3.style.background = 'rgba(255,255,255,0.1)';
+
+  if (password.length === 0) {
+    label.textContent = 'Enter password (min 6 chars)';
+    return;
+  }
+
+  if (score === 1) {
+    seg1.style.background = '#ef4444';
+    label.textContent = 'Weak Password';
+  } else if (score === 2) {
+    seg1.style.background = '#f59e0b';
+    seg2.style.background = '#f59e0b';
+    label.textContent = 'Medium Strength';
+  } else if (score >= 3) {
+    seg1.style.background = '#10b981';
+    seg2.style.background = '#10b981';
+    seg3.style.background = '#10b981';
+    label.textContent = 'Strong Password';
+  }
+}
+
+/* ==========================================================================
+   DOWNLOAD INTENT & APK DOWNLOAD HUB CONTROLLER
+   ========================================================================== */
+function handleDownloadNavClick(event) {
+  if (event) event.preventDefault();
+
+  const userSession = localStorage.getItem('inclusivepay_user');
+  if (userSession) {
+    switchView('download-hub');
+  } else {
+    sessionStorage.setItem('pending_download_intent', 'true');
+    showToast('Authentication Required', 'Please sign in or create an account to download the APK.', 'info');
+    switchView('login');
+  }
+}
+
+function processPendingDownloadIntent() {
+  const pendingIntent = sessionStorage.getItem('pending_download_intent');
+  if (pendingIntent === 'true') {
+    sessionStorage.removeItem('pending_download_intent');
+    showToast('Access Granted', 'Directing to APK Download Hub...', 'success');
+    switchView('download-hub');
+    setTimeout(() => {
+      triggerApkDownloadSequence();
+    }, 800);
+  }
+}
+
+async function triggerApkDownloadSequence() {
+  const btn = document.getElementById('btn-start-download');
+  const progressWrap = document.getElementById('download-progress-container');
+  const progressFill = document.getElementById('download-progress-fill');
+  const progressPercent = document.getElementById('download-percent-text');
+  const counterEl = document.getElementById('download-counter-num');
+
+  if (btn) btn.disabled = true;
+  if (progressWrap) progressWrap.style.display = 'block';
+
+  let currentPercent = 0;
+  const interval = setInterval(() => {
+    currentPercent += 5;
+    if (progressFill) progressFill.style.width = `${currentPercent}%`;
+    if (progressPercent) progressPercent.textContent = `${currentPercent}%`;
+
+    if (currentPercent >= 100) {
+      clearInterval(interval);
+      if (btn) btn.disabled = false;
+      showToast('Download Complete!', 'InclusivePay_v2.4.0.apk has been downloaded.', 'success');
+
+      // Increment counter
+      if (counterEl) {
+        let currentCount = parseInt(counterEl.textContent.replace(/,/g, '')) || 12480;
+        counterEl.textContent = (currentCount + 1).toLocaleString();
+      }
+
+      // Trigger Virtual File Download
+      const link = document.createElement('a');
+      link.href = 'data:text/plain;charset=utf-8,InclusivePay%20v2.4.0%20Accessible%20APK%20Binary';
+      link.download = 'InclusivePay_v2.4.0.apk';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }, 75);
+}
+
+/* ==========================================================================
+   AUTHENTICATION FORM HANDLERS (LOCAL & GOOGLE)
+   ========================================================================== */
+async function handleLoginSubmit(event) {
+  event.preventDefault();
+
+  const emailInput = document.getElementById('login-email');
+  const pwdInput = document.getElementById('login-pwd');
+  const submitBtn = document.getElementById('btn-login-submit');
+
+  const userEmail = emailInput ? emailInput.value.trim() : '';
+  const userPwd = pwdInput ? pwdInput.value.trim() : '';
+
+  if (!userEmail || !userPwd) {
+    showToast('Login Error', 'Please provide both email address and password.', 'error');
+    return;
+  }
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Authenticating...';
+  }
+
+  try {
+    const res = await fetch('http://localhost:5000/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: userEmail, password: userPwd })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      localStorage.setItem('inclusivepay_token', data.token);
+      updateNavUserProfile(data.user);
+      showToast('Welcome Back!', `Signed in as ${data.user.fullName || data.user.email}`, 'success');
+
+      if (sessionStorage.getItem('pending_download_intent') === 'true') {
+        processPendingDownloadIntent();
+      } else {
+        switchView('dashboard');
+      }
+    } else {
+      showToast('Authentication Failed', data.message || 'Invalid email or password.', 'error');
+    }
+  } catch (error) {
+    console.error('Local Login Error:', error);
+    // Fallback demo login if server endpoint is offline
+    const fallbackUser = { fullName: userEmail.split('@')[0], email: userEmail, provider: 'local' };
+    updateNavUserProfile(fallbackUser);
+    showToast('Signed In (Demo)', `Welcome back, ${fallbackUser.fullName}!`, 'success');
+    if (sessionStorage.getItem('pending_download_intent') === 'true') {
+      processPendingDownloadIntent();
+    } else {
+      switchView('dashboard');
+    }
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Sign In to Dashboard';
+    }
+  }
+}
+
+async function handleSignupSubmit(event) {
+  event.preventDefault();
+
+  const nameInput = document.getElementById('signup-name');
+  const emailInput = document.getElementById('signup-email');
+  const pwdInput = document.getElementById('signup-pwd');
+  const confirmPwdInput = document.getElementById('signup-confirm-pwd');
+  const submitBtn = document.getElementById('btn-signup-submit');
+
+  const fullName = nameInput ? nameInput.value.trim() : '';
+  const email = emailInput ? emailInput.value.trim() : '';
+  const password = pwdInput ? pwdInput.value : '';
+  const confirmPwd = confirmPwdInput ? confirmPwdInput.value : '';
+
+  if (!fullName || !email || !password) {
+    showToast('Validation Error', 'Please complete all required registration fields.', 'error');
+    return;
+  }
+
+  if (password !== confirmPwd) {
+    showToast('Validation Error', 'Passwords do not match. Please re-enter.', 'error');
+    return;
+  }
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Creating Account...';
+  }
+
+  try {
+    const res = await fetch('http://localhost:5000/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fullName, email, password })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      localStorage.setItem('inclusivepay_token', data.token);
+      updateNavUserProfile(data.user);
+      showToast('Registration Successful!', 'Your InclusivePay account is now active.', 'success');
+
+      if (sessionStorage.getItem('pending_download_intent') === 'true') {
+        processPendingDownloadIntent();
+      } else {
+        switchView('dashboard');
+      }
+    } else {
+      showToast('Registration Failed', data.message || 'Failed to create account.', 'error');
+    }
+  } catch (error) {
+    console.error('Signup Error:', error);
+    const fallbackUser = { fullName, email, provider: 'local' };
+    updateNavUserProfile(fallbackUser);
+    showToast('Account Created (Demo)', `Welcome ${fullName}!`, 'success');
+    if (sessionStorage.getItem('pending_download_intent') === 'true') {
+      processPendingDownloadIntent();
+    } else {
+      switchView('dashboard');
+    }
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Create Account & Go to Dashboard';
+    }
+  }
+}
+
+async function loginWithGoogle() {
+  if (!window.firebaseAuth || !window.firebaseAuth.auth) {
+    showToast('Firebase Error', 'Firebase SDK is initializing. Please refresh.', 'error');
+    return;
+  }
+
+  const { auth, googleProvider, signInWithPopup } = window.firebaseAuth;
+
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    const user = result.user;
+
+    const payload = {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName || user.email.split('@')[0],
+      photoURL: user.photoURL || ''
+    };
+
+    const response = await fetch("http://localhost:5000/api/auth/google-sync", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    const resData = await response.json();
+
+    const userData = resData.success ? resData.user : { fullName: payload.displayName, email: payload.email, profileImage: payload.photoURL };
+
+    if (resData.token) localStorage.setItem('inclusivepay_token', resData.token);
+
+    updateNavUserProfile(userData);
+    showToast('Google Sign-In Successful!', `Logged in as ${userData.fullName || userData.email}`, 'success');
+
+    if (sessionStorage.getItem('pending_download_intent') === 'true') {
+      processPendingDownloadIntent();
+    } else {
+      switchView('dashboard');
+    }
+
+  } catch (error) {
+    console.error("❌ Google Sign-In Error:", error);
+    if (error.code !== 'auth/popup-closed-by-user') {
+      showToast('Google Sign-In Failed', error.message, 'error');
+    }
+  }
+}
+
+/* ==========================================================================
+   PROFILE & SESSION MANAGEMENT
+   ========================================================================== */
+window.updateNavUserProfile = function (userData) {
+  if (!userData) return;
+
+  const btnLogin = document.getElementById('btn-nav-login');
+  const userProfileMenu = document.getElementById('user-profile-menu');
+  const avatarImg = document.getElementById('user-avatar');
+  const avatarFallback = document.getElementById('user-avatar-fallback');
+  const displayNameEl = document.getElementById('user-display-name');
+  const displayEmailEl = document.getElementById('user-display-email');
+  const dashUserName = document.getElementById('dash-user-name');
+
+  const navDashboardWrap = document.getElementById('nav-item-dashboard-wrap');
+  const navProfileWrap = document.getElementById('nav-item-profile-wrap');
+
+  // Profile View Elements
+  const profViewAvatar = document.getElementById('prof-view-avatar');
+  const profViewFallback = document.getElementById('prof-view-fallback');
+  const profViewName = document.getElementById('prof-view-name');
+  const profViewEmail = document.getElementById('prof-view-email');
+  const editProfName = document.getElementById('edit-prof-name');
+  const editProfEmail = document.getElementById('edit-prof-email');
+
+  localStorage.setItem('inclusivepay_user', JSON.stringify(userData));
+
+  const name = userData.fullName || userData.displayName || (userData.email ? userData.email.split('@')[0] : 'User');
+  const email = userData.email || '';
+  const photo = userData.profileImage || userData.photoURL || '';
+
+  if (displayNameEl) displayNameEl.textContent = name;
+  if (displayEmailEl) displayEmailEl.textContent = email;
+  if (dashUserName) dashUserName.textContent = name;
+
+  if (profViewName) profViewName.textContent = name;
+  if (profViewEmail) profViewEmail.textContent = email;
+  if (editProfName) editProfName.value = name;
+  if (editProfEmail) editProfEmail.value = email;
+
+  // Avatar handling
+  if (photo && avatarImg) {
+    avatarImg.src = photo;
+    avatarImg.style.display = 'block';
+    if (avatarFallback) avatarFallback.style.display = 'none';
+  } else if (avatarFallback) {
+    avatarFallback.textContent = name.charAt(0).toUpperCase();
+    avatarFallback.style.display = 'flex';
+    if (avatarImg) avatarImg.style.display = 'none';
+  }
+
+  if (photo && profViewAvatar) {
+    profViewAvatar.src = photo;
+    profViewAvatar.style.display = 'block';
+    if (profViewFallback) profViewFallback.style.display = 'none';
+  } else if (profViewFallback) {
+    profViewFallback.textContent = name.charAt(0).toUpperCase();
+    profViewFallback.style.display = 'flex';
+    if (profViewAvatar) profViewAvatar.style.display = 'none';
+  }
+
+  if (btnLogin) btnLogin.style.display = 'none';
+  if (userProfileMenu) userProfileMenu.style.display = 'flex';
+  if (navDashboardWrap) navDashboardWrap.style.display = 'block';
+  if (navProfileWrap) navProfileWrap.style.display = 'block';
+};
+
+window.handleLogout = async function () {
+  try {
+    if (window.firebaseAuth && window.firebaseAuth.auth && window.firebaseAuth.signOut) {
+      await window.firebaseAuth.signOut(window.firebaseAuth.auth);
+    }
+  } catch (err) {
+    console.warn("Firebase signout warning:", err);
+  }
+
+  localStorage.removeItem('inclusivepay_user');
+  localStorage.removeItem('inclusivepay_token');
+
+  const btnLogin = document.getElementById('btn-nav-login');
+  const userProfileMenu = document.getElementById('user-profile-menu');
+  const navDashboardWrap = document.getElementById('nav-item-dashboard-wrap');
+  const navProfileWrap = document.getElementById('nav-item-profile-wrap');
+
+  if (btnLogin) btnLogin.style.display = 'inline-block';
+  if (userProfileMenu) userProfileMenu.style.display = 'none';
+  if (navDashboardWrap) navDashboardWrap.style.display = 'none';
+  if (navProfileWrap) navProfileWrap.style.display = 'none';
+
+  showToast('Logged Out', 'You have been signed out of your account.', 'info');
+  switchView('home');
+};
+
+async function handleUpdateProfileSubmit(event) {
+  event.preventDefault();
+
+  const editProfName = document.getElementById('edit-prof-name');
+  const newName = editProfName ? editProfName.value.trim() : '';
+
+  if (!newName) {
+    showToast('Error', 'Please enter your full name.', 'error');
+    return;
+  }
+
+  const savedUser = localStorage.getItem('inclusivepay_user');
+  let userObj = savedUser ? JSON.parse(savedUser) : {};
+  userObj.fullName = newName;
+  userObj.displayName = newName;
+
+  updateNavUserProfile(userObj);
+  showToast('Profile Saved', 'Your profile details have been updated.', 'success');
+}
+
+// Global View Switcher Engine
+window.switchView = function (viewId) {
+  const views = ['home', 'features', 'about', 'login', 'signup', 'dashboard', 'download-hub', 'profile'];
+
+  views.forEach(v => {
+    const el = document.getElementById(`view-${v}`);
+    if (el) {
+      el.classList.remove('active');
+      el.style.display = 'none';
+    }
+  });
+
+  const targetView = document.getElementById(`view-${viewId}`);
+  if (targetView) {
+    targetView.classList.add('active');
+    targetView.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Sync nav highlight
+  document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+  const activeLink = document.getElementById(`nav-item-${viewId}`);
+  if (activeLink) activeLink.classList.add('active');
+};
+
+// DOM Initialization
+document.addEventListener('DOMContentLoaded', () => {
+  const savedUser = localStorage.getItem('inclusivepay_user');
+  if (savedUser) {
+    try {
+      updateNavUserProfile(JSON.parse(savedUser));
+    } catch (e) {
+      console.error("Failed parsing saved user session:", e);
+    }
+  }
+
+  const initialHash = window.location.hash.replace('#', '');
+  if (['login', 'signup', 'dashboard', 'download-hub', 'profile'].includes(initialHash)) {
+    switchView(initialHash);
+  }
+});
+
+// Alias downloadAPK to handleDownloadNavClick for all CTA buttons
+window.downloadAPK = function (event) {
+  handleDownloadNavClick(event);
+};
+
+
+
+
