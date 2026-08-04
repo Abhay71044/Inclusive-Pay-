@@ -7,7 +7,7 @@ import {
   signOut as firebaseSignOut, 
   onAuthStateChanged 
 } from 'firebase/auth';
-import { firebaseConfig } from '../config';
+import { firebaseConfig, API_BASE_URL } from '../config';
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -96,7 +96,7 @@ export const AuthProvider = ({ children }) => {
 
     // 1. Try Backend API Registration
     try {
-      const response = await fetch('/api/auth/register', {
+      const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ fullName, email: cleanEmail, password })
@@ -147,7 +147,7 @@ export const AuthProvider = ({ children }) => {
 
     // 1. Try Express/MongoDB Backend Login
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: cleanEmail, password })

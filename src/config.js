@@ -16,6 +16,8 @@ export const firebaseConfig = {
 
 export const MONGODB_URI = "mongodb+srv://abhaysingh71044_db_user:sG6cyBdBvX1qXw2L@cluster0.6bdccei.mongodb.net/inclusivepay?retryWrites=true&w=majority";
 
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://inclusivepay-backend.onrender.com";
+
 export const downloadAPKFile = (speak, showToast) => {
   if (speak) speak("Downloading InclusivePay APK application...");
 
