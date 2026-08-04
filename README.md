@@ -146,4 +146,4 @@ JWT_SECRET=your_jwt_secret_key
 
 ---
 
-👨‍💻 **Developed by   Shivansh Saxena,Abhay Singh,Parth Sarthi and Sambhav Goel**
+👨‍💻 **Developed by   Shivansh Saxena , Abhay Singh , Parth Sarthi and Sambhav Goel**
