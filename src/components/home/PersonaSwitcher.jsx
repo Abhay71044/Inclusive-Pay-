@@ -51,12 +51,11 @@ const personaData = {
 
 const PersonaSwitcher = () => {
   const [activeTab, setActiveTab] = useState('visual');
-  const { speak, showToast } = useAccessibility();
+  const { speak } = useAccessibility();
 
   const handleSelectPersona = (key) => {
     setActiveTab(key);
     const data = personaData[key];
-    showToast(`👤 Persona Selected: ${data.title}`);
     speak(data.demoText);
   };
 

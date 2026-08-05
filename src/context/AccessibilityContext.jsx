@@ -13,6 +13,20 @@ export const AccessibilityProvider = ({ children }) => {
   // Modal dialog state
   const [modal, setModal] = useState({ isOpen: false, title: '', content: '' });
 
+  // APK Download count state (persisted in localStorage, default 10)
+  const [downloadCount, setDownloadCount] = useState(() => {
+    const saved = localStorage.getItem('inclusivepay_download_count');
+    return saved ? parseInt(saved, 10) : 10;
+  });
+
+  const incrementDownloadCount = () => {
+    setDownloadCount((prev) => {
+      const next = prev + 1;
+      localStorage.setItem('inclusivepay_download_count', next.toString());
+      return next;
+    });
+  };
+
   // Update root HTML font size when fontScale changes
   useEffect(() => {
     document.documentElement.style.fontSize = `${fontScale}%`;
@@ -118,7 +132,9 @@ export const AccessibilityProvider = ({ children }) => {
         showToast,
         modal,
         showModal,
-        closeModal
+        closeModal,
+        downloadCount,
+        incrementDownloadCount
       }}
     >
       {children}

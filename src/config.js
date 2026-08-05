@@ -16,7 +16,8 @@ export const firebaseConfig = {
 
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://inclusivepay-backend.onrender.com";
 
-export const downloadAPKFile = (speak, showToast) => {
+export const downloadAPKFile = (speak, showToast, incrementCount) => {
+  if (incrementCount) incrementCount();
   if (speak) speak("Downloading InclusivePay APK application...");
 
   if (!APK_LINK || APK_LINK === "PASTE_YOUR_APK_LINK_HERE" || !APK_LINK.startsWith('http')) {

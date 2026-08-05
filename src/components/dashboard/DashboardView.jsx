@@ -6,7 +6,7 @@ import { APK_LINK, downloadAPKFile } from '../../config';
 
 const DashboardView = () => {
   const { currentUser, switchView } = useAuth();
-  const { showToast, speak } = useAccessibility();
+  const { showToast, speak, incrementDownloadCount } = useAccessibility();
   const [copiedChecksum, setCopiedChecksum] = useState(false);
 
   const checksumText = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855";
@@ -27,7 +27,7 @@ const DashboardView = () => {
       return;
     }
     speak(`Initiating download for InclusivePay ${version} APK`);
-    downloadAPKFile(speak, showToast);
+    downloadAPKFile(speak, showToast, incrementDownloadCount);
   };
 
   return (

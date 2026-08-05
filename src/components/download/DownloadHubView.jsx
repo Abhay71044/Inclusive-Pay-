@@ -6,10 +6,9 @@ import { APK_LINK, downloadAPKFile } from '../../config';
 
 const DownloadHubView = () => {
   const { currentUser, switchView } = useAuth();
-  const { showToast, speak } = useAccessibility();
+  const { showToast, speak, downloadCount, incrementDownloadCount } = useAccessibility();
   const [downloading, setDownloading] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [downloadCount, setDownloadCount] = useState(10);
 
   const startDownloadSequence = () => {
     if (!currentUser) {
@@ -31,7 +30,7 @@ const DownloadHubView = () => {
       if (current >= 100) {
         clearInterval(interval);
         setDownloading(false);
-        setDownloadCount((prev) => prev + 1);
+        incrementDownloadCount();
 
         downloadAPKFile(speak, showToast);
       }
@@ -44,6 +43,8 @@ const DownloadHubView = () => {
       showToast("🔒 Login required! Please log in to access the direct APK link.");
       speak("Login required. Please log in to access the direct download link.");
       switchView('login');
+    } else {
+      incrementDownloadCount();
     }
   };
 

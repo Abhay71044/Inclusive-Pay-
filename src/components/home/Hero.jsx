@@ -6,7 +6,7 @@ import UserAvatar from '../common/UserAvatar';
 
 const Hero = () => {
   const { switchView, currentUser } = useAuth();
-  const { speak, showToast } = useAccessibility();
+  const { speak } = useAccessibility();
 
   const [isBalanceRevealed, setIsBalanceRevealed] = useState(false);
 
@@ -15,17 +15,14 @@ const Hero = () => {
       const next = !prev;
       if (next) {
         speak('Bank balance revealed: 18 thousand 4 hundred 50 rupees');
-        showToast('👁️ Available Balance Revealed: ₹18,450.00');
       } else {
         speak('Available balance hidden');
-        showToast('🔒 Available Balance Hidden');
       }
       return next;
     });
   };
 
   const handleQuickAction = (actionName, speechMsg) => {
-    showToast(`📱 Action Triggered: ${actionName}`);
     speak(speechMsg);
   };
 
@@ -123,7 +120,6 @@ const Hero = () => {
 
                     <button 
                       onClick={() => {
-                        showToast('🔔 0 Pending Notifications');
                         speak('You have no new notifications');
                       }}
                       className="p-2 rounded-xl bg-slate-800/80 text-slate-300 hover:text-white transition"
@@ -203,7 +199,6 @@ const Hero = () => {
                   <button
                     onClick={() => {
                       speak('Listening to your voice command... Say pay Ramesh 500 rupees');
-                      showToast('🎙️ Voice Assistant Listening...');
                     }}
                     className="w-14 h-14 rounded-full bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white flex items-center justify-center shadow-lg shadow-indigo-500/50 hover:scale-110 active:scale-95 transition animate-pulse-glow"
                     aria-label="Activate Voice Assistant Command"
