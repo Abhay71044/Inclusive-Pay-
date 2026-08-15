@@ -24,7 +24,7 @@ const ProfileView = () => {
   return (
     <div className="py-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto text-left">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-        
+
         {/* Sidebar Card */}
         <div className="md:col-span-4 glass-card rounded-3xl p-6 border border-slate-800 flex flex-col items-center text-center space-y-4">
           <UserAvatar user={currentUser} className="w-24 h-24 text-3xl font-extrabold" />

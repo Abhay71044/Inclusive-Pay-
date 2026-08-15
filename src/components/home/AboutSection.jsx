@@ -12,7 +12,7 @@ const AboutSection = () => {
     <section className="py-20 bg-slate-950/40 border-t border-slate-800/80" id="about" aria-labelledby="about-heading">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
+
           <div className="lg:col-span-7 text-left space-y-4">
             <span className="text-xs font-bold tracking-wider text-indigo-400 uppercase bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/30">
               Our Core Mission
@@ -34,7 +34,7 @@ const AboutSection = () => {
                 key={idx}
                 className="glass-card glass-card-hover rounded-2xl p-6 border border-slate-800/80 flex flex-col items-center justify-center text-center space-y-1"
               >
-                <div className="text-2xl sm:text-3xl font-extrabold text-transparent bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text">
+                <div className="text-2xl sm:text-3xl font-extrabold text-transparent bg-gradient-to-r from-[#9EB384] to-[#5E8262] bg-clip-text">
                   {st.val}
                 </div>
                 <div className="text-xs font-medium text-slate-400">

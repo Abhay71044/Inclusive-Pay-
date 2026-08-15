@@ -18,10 +18,10 @@ const Footer = () => {
   return (
     <footer className="bg-slate-950 border-t border-slate-800 text-slate-400 text-sm py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Main Footer Row */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-8 pb-8 border-b border-slate-900 text-left">
-          
+
           {/* Left Brand Area */}
           <div className="space-y-2 max-w-md">
             <div className="flex items-center space-x-3">

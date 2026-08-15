@@ -79,9 +79,9 @@ const SignupView = () => {
   return (
     <div className="py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto min-h-[calc(100vh-140px)] flex items-center justify-center">
       <div className="w-full glass-card rounded-3xl border border-slate-800/80 overflow-hidden grid grid-cols-1 lg:grid-cols-12 shadow-2xl">
-        
+
         {/* Left Graphics Panel */}
-        <div className="lg:col-span-6 bg-gradient-to-br from-purple-900/60 via-slate-900 to-indigo-950/60 p-8 sm:p-12 flex flex-col justify-between text-left border-b lg:border-b-0 lg:border-r border-slate-800">
+        <div className="lg:col-span-6 bg-gradient-to-br from-[#2E5747]/60 via-[#243036] to-[#2E5747]/40 p-8 sm:p-12 flex flex-col justify-between text-left border-b lg:border-b-0 lg:border-r border-slate-800">
           <div className="space-y-6">
             <div className="inline-flex items-center space-x-2 bg-purple-500/20 border border-purple-500/30 px-3.5 py-1.5 rounded-full text-purple-300 text-xs font-semibold">
               <Mic className="w-4 h-4 text-purple-400" />
@@ -178,8 +178,8 @@ const SignupView = () => {
               <div className="mt-2 space-y-1">
                 <div className="grid grid-cols-3 gap-1.5 h-1.5">
                   <div className={`rounded-full transition ${pwdStrength >= 1 ? 'bg-amber-400' : 'bg-slate-800'}`} />
-                  <div className={`rounded-full transition ${pwdStrength >= 2 ? 'bg-indigo-400' : 'bg-slate-800'}`} />
-                  <div className={`rounded-full transition ${pwdStrength >= 3 ? 'bg-emerald-400' : 'bg-slate-800'}`} />
+                  <div className={`rounded-full transition ${pwdStrength >= 2 ? 'bg-[#5E8262]' : 'bg-slate-800'}`} />
+                  <div className={`rounded-full transition ${pwdStrength >= 3 ? 'bg-[#9EB384]' : 'bg-slate-800'}`} />
                 </div>
                 <div className="text-[11px] text-slate-400">
                   {pwdStrength === 0 && 'Enter password (min 6 chars)'}
@@ -228,10 +228,10 @@ const SignupView = () => {
             className="w-full py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700/80 text-white font-semibold text-sm border border-slate-700 flex items-center justify-center space-x-3 transition"
           >
             <svg className="w-4 h-4" viewBox="0 0 18 18">
-              <path fill="#4285F4" d="M17.64 9.2c0-.74-.06-1.28-.19-1.84H9v3.34h4.96c-.1.83-.64 2.08-1.84 2.92l2.84 2.2c1.7-1.57 2.68-3.88 2.68-6.62z"/>
-              <path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.84-2.2c-.76.53-1.78.9-3.12.9-2.38 0-4.41-1.57-5.13-3.72L.97 13.02C2.47 16 5.48 18 9 18z"/>
-              <path fill="#FBBC05" d="M3.87 10.8c-.19-.56-.3-1.17-.3-1.8s.11-1.24.3-1.8L.97 4.98C.35 6.22 0 7.57 0 9s.35 2.78.97 4.02l2.9-2.22z"/>
-              <path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0 5.48 0 2.47 2 1.05 4.98l2.9 2.22C4.67 5.07 6.62 3.58 9 3.58z"/>
+              <path fill="#4285F4" d="M17.64 9.2c0-.74-.06-1.28-.19-1.84H9v3.34h4.96c-.1.83-.64 2.08-1.84 2.92l2.84 2.2c1.7-1.57 2.68-3.88 2.68-6.62z" />
+              <path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.84-2.2c-.76.53-1.78.9-3.12.9-2.38 0-4.41-1.57-5.13-3.72L.97 13.02C2.47 16 5.48 18 9 18z" />
+              <path fill="#FBBC05" d="M3.87 10.8c-.19-.56-.3-1.17-.3-1.8s.11-1.24.3-1.8L.97 4.98C.35 6.22 0 7.57 0 9s.35 2.78.97 4.02l2.9-2.22z" />
+              <path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0 5.48 0 2.47 2 1.05 4.98l2.9 2.22C4.67 5.07 6.62 3.58 9 3.58z" />
             </svg>
             <span>{loading ? 'Registering with Google...' : 'Continue with Google'}</span>
           </button>

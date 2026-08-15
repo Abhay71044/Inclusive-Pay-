@@ -33,9 +33,9 @@ const Navbar = () => {
   return (
     <header className="sticky top-0 z-40 bg-slate-900/80 backdrop-blur-xl border-b border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        
+
         {/* Brand Logo */}
-        <button 
+        <button
           onClick={() => handleNavClick('home', 'home')}
           className="flex items-center space-x-3 group focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-lg p-1"
           aria-label="InclusivePay Home"
@@ -57,29 +57,26 @@ const Navbar = () => {
         <nav aria-label="Main Navigation" className="hidden md:flex items-center space-x-1">
           <button
             onClick={() => handleNavClick('home', 'home')}
-            className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
-              activeView === 'home' ? 'text-indigo-400 bg-indigo-500/10' : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
-            }`}
+            className={`px-3 py-2 rounded-lg text-sm font-medium transition ${activeView === 'home' ? 'text-indigo-400 bg-indigo-500/10' : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+              }`}
           >
             Home
           </button>
 
           <button
             onClick={() => handleNavClick(currentUser ? 'dashboard' : 'login')}
-            className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
-              activeView === 'dashboard' ? 'text-indigo-400 bg-indigo-500/10' : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
-            }`}
+            className={`px-3 py-2 rounded-lg text-sm font-medium transition ${activeView === 'dashboard' ? 'text-indigo-400 bg-indigo-500/10' : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+              }`}
           >
             Dashboard
           </button>
 
           <button
             onClick={handleDownloadClick}
-            className={`px-3.5 py-1.5 rounded-lg text-sm font-semibold transition flex items-center gap-1.5 ${
-              activeView === 'download-hub'
+            className={`px-3.5 py-1.5 rounded-lg text-sm font-semibold transition flex items-center gap-1.5 ${activeView === 'download-hub'
                 ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/30'
                 : 'bg-indigo-500/10 text-indigo-300 hover:bg-indigo-500/20 border border-indigo-500/30'
-            }`}
+              }`}
           >
             <Download className="w-4 h-4" />
             <span>Download APK</span>
@@ -87,18 +84,16 @@ const Navbar = () => {
 
           <button
             onClick={() => handleNavClick(currentUser ? 'profile' : 'login')}
-            className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
-              activeView === 'profile' ? 'text-indigo-400 bg-indigo-500/10' : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
-            }`}
+            className={`px-3 py-2 rounded-lg text-sm font-medium transition ${activeView === 'profile' ? 'text-indigo-400 bg-indigo-500/10' : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+              }`}
           >
             My Profile
           </button>
 
           <button
             onClick={() => handleNavClick('home', 'contact')}
-            className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
-              activeView === 'contact' ? 'text-indigo-400 bg-indigo-500/10' : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
-            }`}
+            className={`px-3 py-2 rounded-lg text-sm font-medium transition ${activeView === 'contact' ? 'text-indigo-400 bg-indigo-500/10' : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+              }`}
           >
             Contact
           </button>

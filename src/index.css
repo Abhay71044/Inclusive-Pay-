@@ -1,12 +1,56 @@
 @import "tailwindcss";
 
+@theme {
+  --color-slate-950: #1b2428;
+  --color-slate-900: #243036;
+  --color-slate-800: #2d3b42;
+  --color-slate-700: #384952;
+  --color-slate-600: #495e68;
+
+  --color-indigo-300: #b8ccaa;
+  --color-indigo-400: #9EB384;
+  --color-indigo-500: #628667;
+  --color-indigo-600: #5E8262;
+  --color-indigo-700: #2E5747;
+  --color-indigo-800: #244437;
+  --color-indigo-900: #1e362c;
+  --color-indigo-950: #162921;
+
+  --color-purple-300: #b8ccaa;
+  --color-purple-400: #9EB384;
+  --color-purple-500: #628667;
+  --color-purple-600: #5E8262;
+  --color-purple-700: #2E5747;
+  --color-purple-800: #244437;
+  --color-purple-900: #243036;
+  --color-purple-950: #1b2428;
+
+  --color-violet-400: #9EB384;
+  --color-violet-500: #628667;
+  --color-violet-600: #5E8262;
+  --color-violet-700: #2E5747;
+
+  --color-pink-400: #9EB384;
+  --color-pink-500: #5E8262;
+
+  --color-palette-light: #9EB384;
+  --color-palette-sage: #5E8262;
+  --color-palette-forest: #2E5747;
+  --color-palette-dark: #243036;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
-  
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'Poppins', system-ui, -apple-system, sans-serif;
   }
 }
@@ -43,10 +87,10 @@ body.high-contrast-mode .bg-slate-900\/80 {
 
 /* Custom Utilities for Glassmorphism & Animations */
 .glass-card {
-  background: rgba(15, 23, 42, 0.65);
+  background: rgba(36, 48, 54, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(158, 179, 132, 0.2);
 }
 
 .glass-card-hover {
@@ -55,21 +99,24 @@ body.high-contrast-mode .bg-slate-900\/80 {
 
 .glass-card-hover:hover {
   transform: translateY(-4px);
-  border-color: rgba(99, 102, 241, 0.4);
-  box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.25);
+  border-color: rgba(158, 179, 132, 0.4);
+  box-shadow: 0 20px 40px -15px rgba(94, 130, 98, 0.35);
 }
 
 .glow-purple {
-  box-shadow: 0 0 50px -10px rgba(99, 102, 241, 0.35);
+  box-shadow: 0 0 50px -10px rgba(94, 130, 98, 0.4);
 }
 
 /* Pulse Glow Animation */
 @keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(94, 130, 98, 0.4);
   }
+
   50% {
-    box-shadow: 0 0 40px rgba(168, 85, 247, 0.7);
+    box-shadow: 0 0 40px rgba(158, 179, 132, 0.7);
   }
 }
 

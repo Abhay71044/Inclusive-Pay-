@@ -14,7 +14,7 @@ const AccessibilityBar = () => {
   } = useAccessibility();
 
   return (
-    <aside 
+    <aside
       className="bg-slate-950/90 border-b border-slate-800 text-xs py-2 px-4 sticky top-0 z-50 backdrop-blur-md"
       aria-label="Accessibility Preferences Bar"
     >
@@ -50,11 +50,10 @@ const AccessibilityBar = () => {
           </button>
           <button
             onClick={toggleHighContrast}
-            className={`px-3 py-1 rounded text-xs transition flex items-center gap-1.5 border ${
-              isHighContrast
-                ? 'bg-yellow-400 text-slate-950 font-bold border-yellow-300'
-                : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
-            }`}
+            className={`px-3 py-1 rounded text-xs transition flex items-center gap-1.5 border ${isHighContrast
+              ? 'bg-yellow-400 text-slate-950 font-bold border-yellow-300'
+              : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
+              }`}
             aria-label="Toggle High Contrast Mode"
             title="Toggle high contrast"
           >
@@ -66,11 +65,10 @@ const AccessibilityBar = () => {
         <div className="flex items-center space-x-2">
           <button
             onClick={toggleTTS}
-            className={`px-3 py-1 rounded text-xs transition flex items-center gap-1.5 border ${
-              isTTSEnabled
-                ? 'bg-indigo-600 text-white font-medium border-indigo-500 shadow-sm shadow-indigo-500/50'
-                : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border-slate-700'
-            }`}
+            className={`px-3 py-1 rounded text-xs transition flex items-center gap-1.5 border ${isTTSEnabled
+              ? 'bg-indigo-600 text-white font-medium border-indigo-500 shadow-sm shadow-indigo-500/50'
+              : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border-slate-700'
+              }`}
             aria-label="Toggle Voice Assistant Demo"
             title="Enable text-to-speech assistant demo"
           >

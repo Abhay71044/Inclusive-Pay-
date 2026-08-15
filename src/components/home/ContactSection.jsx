@@ -104,7 +104,7 @@ const ContactSection = () => {
   return (
     <section className="py-20 bg-slate-950/40 border-t border-slate-800/80" id="contact" aria-labelledby="contact-heading">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         <div className="text-center mb-12">
           <span className="text-xs font-bold tracking-wider text-indigo-400 uppercase bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/30">
             Get In Touch
@@ -183,9 +183,8 @@ const ContactSection = () => {
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="e.g. Abhay Singh"
-                  className={`w-full px-4 py-3 rounded-xl bg-slate-900/90 border ${
-                    errors.name ? 'border-rose-500' : 'border-slate-800'
-                  } text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm`}
+                  className={`w-full px-4 py-3 rounded-xl bg-slate-900/90 border ${errors.name ? 'border-rose-500' : 'border-slate-800'
+                    } text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm`}
                 />
                 {errors.name && <p className="text-xs text-rose-400 mt-1">{errors.name}</p>}
               </div>
@@ -217,9 +216,8 @@ const ContactSection = () => {
                   value={formData.message}
                   onChange={handleChange}
                   placeholder="Write your message here... It will be sent directly to abhaysingh71044@gmail.com"
-                  className={`w-full px-4 py-3 rounded-xl bg-slate-900/90 border ${
-                    errors.message ? 'border-rose-500' : 'border-slate-800'
-                  } text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm`}
+                  className={`w-full px-4 py-3 rounded-xl bg-slate-900/90 border ${errors.message ? 'border-rose-500' : 'border-slate-800'
+                    } text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm`}
                 />
                 {errors.message && <p className="text-xs text-rose-400 mt-1">{errors.message}</p>}
               </div>

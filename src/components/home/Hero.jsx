@@ -29,11 +29,11 @@ const Hero = () => {
   return (
     <section className="relative overflow-hidden pt-12 pb-20 md:py-24" id="home">
       {/* Background Radial Glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-600/15 rounded-full blur-[140px] pointer-events-none -z-10" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#5E8262]/20 rounded-full blur-[140px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          
+
           {/* Left Hero Text Content */}
           <div className="lg:col-span-7 flex flex-col text-left space-y-6">
             <div className="inline-flex items-center space-x-2 bg-indigo-500/10 border border-indigo-500/30 px-3.5 py-1.5 rounded-full text-indigo-300 text-xs font-semibold w-fit shadow-inner">
@@ -42,7 +42,7 @@ const Hero = () => {
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.15]">
-              InclusivePay – <span className="bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 bg-clip-text text-transparent">Accessible UPI</span> for Everyone
+              InclusivePay – <span className="bg-gradient-to-r from-[#9EB384] via-[#7B9E76] to-[#5E8262] bg-clip-text text-transparent">Accessible UPI</span> for Everyone
             </h1>
 
             <p className="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl">
@@ -96,7 +96,7 @@ const Hero = () => {
           {/* Right Phone Mockup Frame */}
           <div className="lg:col-span-5 flex justify-center">
             <div className="relative w-full max-w-[340px] sm:max-w-[360px] aspect-[9/18] bg-slate-950 rounded-[44px] p-3 border-4 border-slate-800 shadow-2xl shadow-indigo-500/20 ring-1 ring-slate-700">
-              
+
               {/* Phone Notch */}
               <div className="absolute top-5 left-1/2 -translate-x-1/2 w-28 h-4 bg-slate-900 rounded-full z-20 flex items-center justify-center">
                 <div className="w-3 h-3 rounded-full bg-slate-950 border border-slate-800" />
@@ -104,7 +104,7 @@ const Hero = () => {
 
               {/* Phone Screen Container */}
               <div className="w-full h-full bg-slate-900 rounded-[34px] p-4 flex flex-col justify-between overflow-hidden relative border border-slate-800/60 pt-8">
-                
+
                 {/* App Header Bar */}
                 <div>
                   <div className="flex items-center justify-between mb-4">
@@ -118,7 +118,7 @@ const Hero = () => {
                       </div>
                     </div>
 
-                    <button 
+                    <button
                       onClick={() => {
                         speak('You have no new notifications');
                       }}
@@ -130,10 +130,10 @@ const Hero = () => {
                   </div>
 
                   {/* Gradient Bank Card Panel */}
-                  <div className="bg-gradient-to-br from-indigo-600 via-indigo-700 to-purple-800 rounded-2xl p-4 text-white shadow-xl shadow-indigo-900/40 relative overflow-hidden mb-4 border border-indigo-400/20">
+                  <div className="bg-gradient-to-br from-[#2E5747] via-[#5E8262] to-[#2E5747] rounded-2xl p-4 text-white shadow-xl shadow-slate-950/40 relative overflow-hidden mb-4 border border-indigo-400/20">
                     <div className="flex justify-between items-start mb-3">
                       <span className="text-[11px] font-medium tracking-wide text-indigo-100/90">InclusivePay Digital Bank</span>
-                      <button 
+                      <button
                         onClick={toggleBalance}
                         className="px-2.5 py-1 rounded-full bg-white/15 hover:bg-white/25 backdrop-blur-md text-[11px] font-semibold flex items-center gap-1 transition"
                       >
@@ -200,7 +200,7 @@ const Hero = () => {
                     onClick={() => {
                       speak('Listening to your voice command... Say pay Ramesh 500 rupees');
                     }}
-                    className="w-14 h-14 rounded-full bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white flex items-center justify-center shadow-lg shadow-indigo-500/50 hover:scale-110 active:scale-95 transition animate-pulse-glow"
+                    className="w-14 h-14 rounded-full bg-gradient-to-tr from-[#2E5747] via-[#5E8262] to-[#9EB384] text-white flex items-center justify-center shadow-lg shadow-indigo-500/50 hover:scale-110 active:scale-95 transition animate-pulse-glow"
                     aria-label="Activate Voice Assistant Command"
                   >
                     <Mic className="w-7 h-7" />

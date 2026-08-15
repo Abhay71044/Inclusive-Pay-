@@ -32,7 +32,7 @@ const DashboardView = () => {
 
   return (
     <div className="py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-8 text-left">
-      
+
       {/* Top Banner */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-800 pb-8">
         <div>
@@ -98,7 +98,7 @@ const DashboardView = () => {
           <h3 className="text-xl font-bold text-white">APK Management & Support</h3>
           <span className="text-xs text-indigo-400 font-semibold uppercase tracking-wider">Quick Actions</span>
         </div>
-        
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <button
             onClick={() => handleDownload("v2.4.0")}

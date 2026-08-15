@@ -6,7 +6,7 @@ export const AccessibilityProvider = ({ children }) => {
   const [fontScale, setFontScale] = useState(100);
   const [isHighContrast, setIsHighContrast] = useState(false);
   const [isTTSEnabled, setIsTTSEnabled] = useState(false);
-  
+
   // Toast notifications state
   const [toasts, setToasts] = useState([]);
 

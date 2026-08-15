@@ -51,7 +51,7 @@ const DownloadHubView = () => {
   return (
     <div className="py-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto space-y-8 text-left">
       <div className="glass-card rounded-3xl p-6 sm:p-10 border border-slate-800 space-y-6">
-        
+
         {/* Unauthenticated Login Alert Banner */}
         {!currentUser && (
           <div className="bg-amber-500/10 border border-amber-500/30 p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3 text-amber-200 text-sm font-semibold">
@@ -133,19 +133,18 @@ const DownloadHubView = () => {
           <button
             onClick={startDownloadSequence}
             disabled={downloading}
-            className={`w-full sm:w-auto px-8 py-4 rounded-2xl font-bold text-lg inline-flex items-center justify-center space-x-3 shadow-xl transition disabled:opacity-50 ${
-              currentUser
+            className={`w-full sm:w-auto px-8 py-4 rounded-2xl font-bold text-lg inline-flex items-center justify-center space-x-3 shadow-xl transition disabled:opacity-50 ${currentUser
                 ? 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-indigo-600/30'
                 : 'bg-amber-600 hover:bg-amber-500 text-white shadow-amber-600/30'
-            }`}
+              }`}
           >
             {currentUser ? <Download className="w-6 h-6" /> : <Lock className="w-6 h-6" />}
             <span>
               {!currentUser
                 ? 'Log In to Download APK'
                 : downloading
-                ? 'Downloading APK Build...'
-                : 'Download APK Build Now'}
+                  ? 'Downloading APK Build...'
+                  : 'Download APK Build Now'}
             </span>
           </button>
 
@@ -157,7 +156,7 @@ const DownloadHubView = () => {
               </div>
               <div className="w-full h-3 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700">
                 <div
-                  className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full transition-all duration-200"
+                  className="h-full bg-gradient-to-r from-[#5E8262] to-[#9EB384] rounded-full transition-all duration-200"
                   style={{ width: `${progress}%` }}
                 />
               </div>

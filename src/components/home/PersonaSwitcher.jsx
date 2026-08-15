@@ -64,7 +64,7 @@ const PersonaSwitcher = () => {
   return (
     <section className="py-16 bg-slate-950/60 border-y border-slate-800/80" aria-labelledby="persona-heading">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
           <span className="text-xs font-bold tracking-wider text-indigo-400 uppercase bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/30">
@@ -89,11 +89,10 @@ const PersonaSwitcher = () => {
                 role="tab"
                 aria-selected={isActive}
                 onClick={() => handleSelectPersona(key)}
-                className={`flex items-center justify-center space-x-2.5 py-3.5 px-4 rounded-2xl font-semibold text-sm transition ${
-                  isActive
-                    ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-600/30 scale-[1.02]'
+                className={`flex items-center justify-center space-x-2.5 py-3.5 px-4 rounded-2xl font-semibold text-sm transition ${isActive
+                    ? 'bg-gradient-to-r from-[#5E8262] to-[#2E5747] text-white shadow-lg shadow-emerald-900/40 scale-[1.02]'
                     : 'bg-slate-900/80 hover:bg-slate-800/90 text-slate-300 border border-slate-800'
-                }`}
+                  }`}
               >
                 <Icon className="w-4 h-4" />
                 <span>{key === 'visual' ? 'Visually Impaired' : key === 'physical' ? 'Physical Disabled' : key === 'hearing' ? 'Hearing & Speech' : 'Elderly Citizens'}</span>
@@ -104,7 +103,7 @@ const PersonaSwitcher = () => {
 
         {/* Display Card */}
         <div className="glass-card rounded-3xl p-6 sm:p-10 border border-slate-800/80 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          
+
           <div className="lg:col-span-7 space-y-4 text-left">
             <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
               {activeData.title}
