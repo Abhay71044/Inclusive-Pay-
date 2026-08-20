@@ -87,7 +87,7 @@ const SignupView = () => {
       <div className="w-full glass-card rounded-3xl border border-slate-800/80 overflow-hidden grid grid-cols-1 lg:grid-cols-12 shadow-2xl">
 
         {/* Left Graphics Panel */}
-        <div className="lg:col-span-6 bg-gradient-to-br from-[#493b6e]/60 via-[#2e1930] to-[#493b6e]/40 p-8 sm:p-12 flex flex-col justify-between text-left border-b lg:border-b-0 lg:border-r border-slate-800">
+        <div className="lg:col-span-6 bg-gradient-to-br from-[#4f52f8]/40 via-[#0e1222] to-[#4f52f8]/30 p-8 sm:p-12 flex flex-col justify-between text-left border-b lg:border-b-0 lg:border-r border-slate-800">
           <div className="space-y-6">
             <div className="inline-flex items-center space-x-2 bg-purple-500/20 border border-purple-500/30 px-3.5 py-1.5 rounded-full text-purple-300 text-xs font-semibold">
               <Mic className="w-4 h-4 text-purple-400" />
@@ -184,8 +184,8 @@ const SignupView = () => {
               <div className="mt-2 space-y-1">
                 <div className="grid grid-cols-3 gap-1.5 h-1.5">
                   <div className={`rounded-full transition ${pwdStrength >= 1 ? 'bg-amber-400' : 'bg-slate-800'}`} />
-                  <div className={`rounded-full transition ${pwdStrength >= 2 ? 'bg-[#965c7f]' : 'bg-slate-800'}`} />
-                  <div className={`rounded-full transition ${pwdStrength >= 3 ? 'bg-[#d89599]' : 'bg-slate-800'}`} />
+                  <div className={`rounded-full transition ${pwdStrength >= 2 ? 'bg-[#4f52f8]' : 'bg-slate-800'}`} />
+                  <div className={`rounded-full transition ${pwdStrength >= 3 ? 'bg-[#f43f5e]' : 'bg-slate-800'}`} />
                 </div>
                 <div className="text-[11px] text-slate-400">
                   {pwdStrength === 0 && 'Enter password (min 6 chars)'}

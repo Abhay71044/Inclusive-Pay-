@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { initializeApp } from 'firebase/app';
-import { 
-  getAuth, 
-  GoogleAuthProvider, 
-  signInWithPopup, 
-  signOut as firebaseSignOut, 
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut as firebaseSignOut,
   onAuthStateChanged,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -85,6 +85,47 @@ export const AuthProvider = ({ children }) => {
       }
     }
 
+    // Check URL query parameters for ?verifyToken=...
+    const urlParams = new URLSearchParams(window.location.search);
+    const verifyToken = urlParams.get('verifyToken');
+    if (verifyToken) {
+      const verifyTokenWithBackend = async () => {
+        const urlsToTry = [
+          `${API_BASE_URL}/api/auth/verify-email-token`,
+          'http://localhost:5000/api/auth/verify-email-token'
+        ];
+        for (const url of urlsToTry) {
+          try {
+            const response = await fetch(url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ token: verifyToken })
+            });
+            const data = await response.json();
+            if (response.ok && data.success && data.user) {
+              const userObj = {
+                displayName: data.user.fullName || data.user.email.split('@')[0],
+                email: data.user.email,
+                photoURL: data.user.profileImage || '',
+                provider: 'local',
+                mongoId: data.user.id,
+                token: data.token
+              };
+              setCurrentUser(userObj);
+              localStorage.setItem('inclusivepay_active_user', JSON.stringify(userObj));
+              setActiveView('home');
+              // Clear verifyToken from URL without reloading
+              window.history.replaceState({}, document.title, window.location.pathname);
+              break;
+            }
+          } catch (e) {
+            // Try fallback
+          }
+        }
+      };
+      verifyTokenWithBackend();
+    }
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         // Only restore session if email is verified or logged in with Google
@@ -130,8 +171,42 @@ export const AuthProvider = ({ children }) => {
         await updateProfile(fbUser, { displayName: fullName });
       }
 
-      // 3. Send Verification Email to user's real email inbox
-      await sendEmailVerification(fbUser);
+      // 3. Dispatch direct verification email via Express Backend
+      const urlsToTry = [
+        `${API_BASE_URL}/api/auth/send-verification-email`,
+        'http://localhost:5000/api/auth/send-verification-email'
+      ];
+
+      let emailDispatched = false;
+      for (const url of urlsToTry) {
+        try {
+          const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fullName, email: cleanEmail, password })
+          });
+          const data = await res.json();
+          if (res.ok && data.success) {
+            emailDispatched = true;
+            break;
+          }
+        } catch (e) {
+          // Retry next endpoint fallback
+        }
+      }
+
+      // Fallback to Firebase sendEmailVerification if backend unreachable
+      if (!emailDispatched) {
+        const actionCodeSettings = {
+          url: window.location.origin,
+          handleCodeInApp: true
+        };
+        try {
+          await sendEmailVerification(fbUser, actionCodeSettings);
+        } catch (e) {
+          await sendEmailVerification(fbUser);
+        }
+      }
 
       // 4. Sign out until email is verified
       await firebaseSignOut(auth);
@@ -139,18 +214,47 @@ export const AuthProvider = ({ children }) => {
       return {
         success: true,
         requiresVerification: true,
-        message: `✉️ Account created! A verification email has been sent to ${cleanEmail}. Please open your inbox and click the link to verify before logging in.`
+        message: `✉️ Verification email dispatched to ${cleanEmail}! Please check your Primary Inbox.`
       };
     } catch (error) {
       let friendlyError = error.message;
       if (error.code === 'auth/email-already-in-use') {
-        friendlyError = 'An account with this email address already exists.';
+        friendlyError = 'An account with this email address already exists. Try logging in or check your email inbox.';
       } else if (error.code === 'auth/invalid-email') {
         friendlyError = 'Invalid email address format.';
       } else if (error.code === 'auth/weak-password') {
         friendlyError = 'Password must be at least 6 characters.';
       }
       return { success: false, error: friendlyError };
+    }
+  };
+
+  const resendVerificationEmail = async (email, password) => {
+    const cleanEmail = email.trim().toLowerCase();
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, cleanEmail, password);
+      const fbUser = userCredential.user;
+      if (!fbUser.emailVerified) {
+        const actionCodeSettings = {
+          url: window.location.origin,
+          handleCodeInApp: true
+        };
+        try {
+          await sendEmailVerification(fbUser, actionCodeSettings);
+        } catch (e) {
+          await sendEmailVerification(fbUser);
+        }
+        await firebaseSignOut(auth);
+        return {
+          success: true,
+          message: `✉️ Verification email resent to ${cleanEmail}! Please check your Inbox AND Spam/Junk folder.`
+        };
+      } else {
+        await firebaseSignOut(auth);
+        return { success: false, error: 'Your email is already verified! You can log in now.' };
+      }
+    } catch (error) {
+      return { success: false, error: error.message || 'Failed to resend verification email.' };
     }
   };
 
@@ -167,7 +271,8 @@ export const AuthProvider = ({ children }) => {
         await firebaseSignOut(auth);
         return {
           success: false,
-          error: '✉️ Email address not verified yet! Please check your email inbox and click the verification link before logging in.'
+          isUnverified: true,
+          error: '✉️ Email address not verified yet! Please check your Inbox AND Spam/Junk folder and click the verification link before logging in.'
         };
       }
 
@@ -226,8 +331,8 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       let friendlyError = error.message;
       if (
-        error.code === 'auth/user-not-found' || 
-        error.code === 'auth/wrong-password' || 
+        error.code === 'auth/user-not-found' ||
+        error.code === 'auth/wrong-password' ||
         error.code === 'auth/invalid-credential'
       ) {
         friendlyError = 'Invalid email or password. Please try again.';
@@ -279,6 +384,7 @@ export const AuthProvider = ({ children }) => {
         switchView,
         loginWithGoogle,
         registerLocal,
+        resendVerificationEmail,
         loginLocal,
         logout,
         updateUserProfile

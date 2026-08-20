@@ -1,42 +1,43 @@
 @import "tailwindcss";
 
 @theme {
-  --color-slate-950: #1c0a1e;
-  --color-slate-900: #2e1930;
-  --color-slate-800: #3d2340;
-  --color-slate-700: #493b6e;
-  --color-slate-600: #5d4d86;
+  --color-slate-950: #080b15;
+  --color-slate-900: #0e1222;
+  --color-slate-800: #141930;
+  --color-slate-700: #1d2444;
+  --color-slate-600: #29325c;
 
-  --color-indigo-300: #e3a8ac;
-  --color-indigo-400: #d89599;
-  --color-indigo-500: #aa6a92;
-  --color-indigo-600: #965c7f;
-  --color-indigo-700: #493b6e;
-  --color-indigo-800: #3d2340;
-  --color-indigo-900: #2e1930;
-  --color-indigo-950: #1c0a1e;
+  --color-indigo-300: #a5a7fb;
+  --color-indigo-400: #7a7df9;
+  --color-indigo-500: #585bf6;
+  --color-indigo-600: #4f52f8;
+  --color-indigo-700: #3b3ed4;
+  --color-indigo-800: #2c2eb0;
+  --color-indigo-900: #141930;
+  --color-indigo-950: #080b15;
 
-  --color-purple-300: #e3a8ac;
-  --color-purple-400: #d89599;
-  --color-purple-500: #aa6a92;
-  --color-purple-600: #965c7f;
-  --color-purple-700: #493b6e;
-  --color-purple-800: #3d2340;
-  --color-purple-900: #2e1930;
-  --color-purple-950: #1c0a1e;
+  --color-purple-300: #a5a7fb;
+  --color-purple-400: #7a7df9;
+  --color-purple-500: #585bf6;
+  --color-purple-600: #4f52f8;
+  --color-purple-700: #3b3ed4;
+  --color-purple-800: #2c2eb0;
+  --color-purple-900: #141930;
+  --color-purple-950: #080b15;
 
-  --color-violet-400: #d89599;
-  --color-violet-500: #965c7f;
-  --color-violet-600: #884f72;
-  --color-violet-700: #493b6e;
+  --color-violet-400: #7a7df9;
+  --color-violet-500: #4f52f8;
+  --color-violet-600: #3b3ed4;
+  --color-violet-700: #2c2eb0;
 
-  --color-pink-400: #d89599;
-  --color-pink-500: #965c7f;
+  --color-pink-400: #ff6b98;
+  --color-pink-500: #f43f5e;
+  --color-pink-600: #e11d48;
 
-  --color-palette-light: #d89599;
-  --color-palette-sage: #965c7f;
-  --color-palette-forest: #493b6e;
-  --color-palette-dark: #2e1930;
+  --color-palette-light: #7a7df9;
+  --color-palette-sage: #4f52f8;
+  --color-palette-forest: #1d2444;
+  --color-palette-dark: #0e1222;
 }
 
 @layer base {
@@ -53,6 +54,59 @@
   h6 {
     font-family: 'Poppins', system-ui, -apple-system, sans-serif;
   }
+}
+
+/* Light Mode CSS Overrides */
+body.light-mode {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+body.light-mode .glass-card {
+  background: rgba(255, 255, 255, 0.88) !important;
+  border-color: rgba(79, 82, 248, 0.15) !important;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.06) !important;
+}
+
+body.light-mode .glass-card-hover:hover {
+  border-color: rgba(79, 82, 248, 0.35) !important;
+  box-shadow: 0 20px 40px -15px rgba(79, 82, 248, 0.2) !important;
+}
+
+body.light-mode header,
+body.light-mode aside {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-color: #e2e8f0 !important;
+}
+
+body.light-mode .text-white {
+  color: #0f172a !important;
+}
+
+body.light-mode .text-slate-100,
+body.light-mode .text-slate-200,
+body.light-mode .text-slate-300 {
+  color: #1e293b !important;
+}
+
+body.light-mode .text-slate-400,
+body.light-mode .text-slate-500 {
+  color: #475569 !important;
+}
+
+body.light-mode .bg-slate-950,
+body.light-mode .bg-slate-900,
+body.light-mode .bg-slate-900\/90,
+body.light-mode .bg-slate-900\/80,
+body.light-mode .bg-slate-800\/90,
+body.light-mode .bg-slate-800\/80 {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+body.light-mode .bg-slate-800 {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
 }
 
 /* High Contrast Mode CSS Overrides */
@@ -87,10 +141,10 @@ body.high-contrast-mode .bg-slate-900\/80 {
 
 /* Custom Utilities for Glassmorphism & Animations */
 .glass-card {
-  background: rgba(46, 25, 48, 0.75);
+  background: rgba(20, 25, 48, 0.78);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(216, 149, 153, 0.2);
+  border: 1px solid rgba(79, 82, 248, 0.22);
 }
 
 .glass-card-hover {
@@ -99,12 +153,12 @@ body.high-contrast-mode .bg-slate-900\/80 {
 
 .glass-card-hover:hover {
   transform: translateY(-4px);
-  border-color: rgba(216, 149, 153, 0.4);
-  box-shadow: 0 20px 40px -15px rgba(150, 92, 127, 0.35);
+  border-color: rgba(79, 82, 248, 0.45);
+  box-shadow: 0 20px 40px -15px rgba(79, 82, 248, 0.35);
 }
 
 .glow-purple {
-  box-shadow: 0 0 50px -10px rgba(150, 92, 127, 0.4);
+  box-shadow: 0 0 50px -10px rgba(79, 82, 248, 0.45);
 }
 
 /* Pulse Glow Animation */
@@ -112,11 +166,11 @@ body.high-contrast-mode .bg-slate-900\/80 {
 
   0%,
   100% {
-    box-shadow: 0 0 20px rgba(150, 92, 127, 0.4);
+    box-shadow: 0 0 20px rgba(79, 82, 248, 0.45);
   }
 
   50% {
-    box-shadow: 0 0 40px rgba(216, 149, 153, 0.7);
+    box-shadow: 0 0 45px rgba(79, 82, 248, 0.75);
   }
 }
 

@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const User = require('./models/User');
@@ -71,8 +72,168 @@ app.post('/api/stats/downloads/increment', (req, res) => {
 });
 
 /* ==========================================================================
-   AUTHENTICATION ENDPOINTS
+   AUTHENTICATION ENDPOINTS & DIRECT EMAIL SERVICE
    ========================================================================== */
+
+// Setup Nodemailer Transporter for Direct Primary Inbox Delivery
+const createTransporter = async () => {
+  if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+    return nodemailer.createTransport({
+      host: process.env.SMTP_HOST || 'smtp.gmail.com',
+      port: parseInt(process.env.SMTP_PORT || '587', 10),
+      secure: false,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS
+      }
+    });
+  }
+
+  // Fallback to Ethereal / Direct Transport
+  const testAccount = await nodemailer.createTestAccount();
+  return nodemailer.createTransport({
+    host: 'smtp.ethereal.email',
+    port: 587,
+    secure: false,
+    auth: {
+      user: testAccount.user,
+      pass: testAccount.pass
+    }
+  });
+};
+
+// 0. Direct Primary Inbox Verification Email Dispatch
+app.post('/api/auth/send-verification-email', async (req, res) => {
+  try {
+    const { fullName, email, password } = req.body;
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Email address is required.' });
+    }
+
+    const cleanEmail = email.trim().toLowerCase();
+
+    // Generate Verification Token (24h validity)
+    const verificationToken = jwt.sign(
+      { email: cleanEmail, fullName, password },
+      process.env.JWT_SECRET || 'inclusivepay_secret_jwt_key_2026',
+      { expiresIn: '24h' }
+    );
+
+    const clientOrigin = req.headers.origin || 'http://localhost:5173';
+    const verifyUrl = `${clientOrigin}/?verifyToken=${encodeURIComponent(verificationToken)}`;
+
+    // Create Transporter
+    const transporter = await createTransporter();
+
+    const mailOptions = {
+      from: `"InclusivePay Team" <no-reply@inclusivepay.app>`,
+      to: cleanEmail,
+      subject: 'Verify Your InclusivePay Account – Action Required',
+      html: `
+        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #080b15; color: #ffffff; padding: 32px; border-radius: 16px; max-width: 560px; margin: 0 auto; border: 1px solid #1d2444;">
+          <div style="text-align: center; margin-bottom: 24px;">
+            <h1 style="color: #4f52f8; margin: 0; font-size: 26px; font-weight: 800;">InclusivePay</h1>
+            <p style="color: #94a3b8; font-size: 13px; margin-top: 4px;">Voice-First Accessible UPI Payment Network</p>
+          </div>
+          
+          <div style="background-color: #141930; padding: 24px; border-radius: 12px; border: 1px solid #1d2444;">
+            <h2 style="color: #ffffff; font-size: 18px; margin-top: 0;">Hello ${fullName || 'InclusivePay User'},</h2>
+            <p style="color: #cbd5e1; font-size: 14px; line-height: 1.6;">
+              Thank you for registering your InclusivePay account. Please click the button below to verify your email address and activate your account:
+            </p>
+            
+            <div style="text-align: center; margin: 28px 0;">
+              <a href="${verifyUrl}" style="background-color: #4f52f8; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 10px; font-weight: bold; font-size: 15px; display: inline-block; box-shadow: 0 4px 14px rgba(79,82,248,0.4);">Verify My InclusivePay Account</a>
+            </div>
+            
+            <p style="color: #94a3b8; font-size: 12px; line-height: 1.5; margin-bottom: 0;">
+              If the button doesn't work, copy and paste this link into your browser:<br>
+              <a href="${verifyUrl}" style="color: #7a7df9; word-break: break-all;">${verifyUrl}</a>
+            </p>
+          </div>
+          
+          <div style="text-align: center; margin-top: 24px; color: #64748b; font-size: 11px;">
+            <p>© 2026 InclusivePay. All rights reserved.</p>
+          </div>
+        </div>
+      `
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log(`✉️ Verification Email Dispatched to ${cleanEmail}: ${info.messageId}`);
+    const previewUrl = nodemailer.getTestMessageUrl(info);
+    if (previewUrl) {
+      console.log(`🔗 Test Email Preview URL: ${previewUrl}`);
+    }
+
+    res.status(200).json({
+      success: true,
+      message: `✉️ Verification email sent to ${cleanEmail}! Please check your Primary Inbox.`,
+      previewUrl: previewUrl || undefined,
+      verificationToken
+    });
+  } catch (error) {
+    console.error('Send Email Error:', error);
+    res.status(500).json({ success: false, message: 'Failed to send verification email.', error: error.message });
+  }
+});
+
+// 0.1 Verify Token Endpoint
+app.post('/api/auth/verify-email-token', async (req, res) => {
+  try {
+    const { token } = req.body;
+    if (!token) {
+      return res.status(400).json({ success: false, message: 'Verification token is required.' });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'inclusivepay_secret_jwt_key_2026');
+    const { email, fullName, password } = decoded;
+
+    const cleanEmail = email.trim().toLowerCase();
+
+    // Create or Activate user in MongoDB Atlas
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password || 'InclusivePayPass123', salt);
+
+    let user = await User.findOne({ email: cleanEmail });
+    if (user) {
+      user.fullName = fullName || user.fullName;
+      user.password = hashedPassword;
+      user.isVerified = true;
+      user.lastLogin = new Date();
+      await user.save();
+    } else {
+      user = await User.create({
+        fullName: fullName || cleanEmail.split('@')[0],
+        email: cleanEmail,
+        password: hashedPassword,
+        provider: 'local',
+        isVerified: true,
+        lastLogin: new Date()
+      });
+    }
+
+    const authToken = generateToken(user);
+    console.log(`✅ Token Verified & User Activated in MongoDB Atlas: ${user.email}`);
+
+    res.status(200).json({
+      success: true,
+      message: 'Account verified successfully!',
+      token: authToken,
+      user: {
+        id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        profileImage: user.profileImage,
+        provider: user.provider,
+        createdAt: user.createdAt
+      }
+    });
+  } catch (error) {
+    console.error('Verify Token Error:', error);
+    res.status(400).json({ success: false, message: 'Invalid or expired verification token.', error: error.message });
+  }
+});
 
 // 1. Local Registration Endpoint
 app.post('/api/auth/register', async (req, res) => {

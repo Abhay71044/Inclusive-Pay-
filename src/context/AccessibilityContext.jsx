@@ -6,6 +6,10 @@ export const AccessibilityProvider = ({ children }) => {
   const [fontScale, setFontScale] = useState(100);
   const [isHighContrast, setIsHighContrast] = useState(false);
   const [isTTSEnabled, setIsTTSEnabled] = useState(false);
+  const [themeMode, setThemeMode] = useState(() => {
+    const saved = localStorage.getItem('inclusivepay_theme_mode');
+    return saved || 'dark';
+  });
 
   // Toast notifications state
   const [toasts, setToasts] = useState([]);
@@ -32,6 +36,16 @@ export const AccessibilityProvider = ({ children }) => {
     document.documentElement.style.fontSize = `${fontScale}%`;
   }, [fontScale]);
 
+  // Update theme mode class on body
+  useEffect(() => {
+    if (themeMode === 'light') {
+      document.body.classList.add('light-mode');
+    } else {
+      document.body.classList.remove('light-mode');
+    }
+    localStorage.setItem('inclusivepay_theme_mode', themeMode);
+  }, [themeMode]);
+
   // Update high contrast class on body
   useEffect(() => {
     if (isHighContrast) {
@@ -40,6 +54,15 @@ export const AccessibilityProvider = ({ children }) => {
       document.body.classList.remove('high-contrast-mode');
     }
   }, [isHighContrast]);
+
+  const toggleThemeMode = () => {
+    setThemeMode((prev) => {
+      const next = prev === 'dark' ? 'light' : 'dark';
+      showToast(next === 'light' ? '☀️ Light Mode Enabled' : '🌙 Dark Mode Enabled');
+      speak(next === 'light' ? 'Light mode enabled' : 'Dark mode enabled');
+      return next;
+    });
+  };
 
   const increaseFontSize = () => {
     if (fontScale < 130) {
@@ -123,6 +146,8 @@ export const AccessibilityProvider = ({ children }) => {
         increaseFontSize,
         decreaseFontSize,
         resetFontSize,
+        themeMode,
+        toggleThemeMode,
         isHighContrast,
         toggleHighContrast,
         isTTSEnabled,

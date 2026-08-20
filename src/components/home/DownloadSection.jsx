@@ -15,7 +15,7 @@ const DownloadSection = () => {
   return (
     <section className="py-20 bg-slate-950/60 border-t border-slate-800/80" id="download" aria-labelledby="download-heading">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="glass-card rounded-3xl p-8 sm:p-12 border border-indigo-500/30 bg-gradient-to-br from-[#493b6e]/40 via-[#2e1930]/90 to-[#493b6e]/30 text-center flex flex-col items-center space-y-6 relative overflow-hidden">
+        <div className="glass-card rounded-3xl p-8 sm:p-12 border border-indigo-500/30 bg-gradient-to-br from-[#4f52f8]/30 via-[#0e1222]/90 to-[#4f52f8]/20 text-center flex flex-col items-center space-y-6 relative overflow-hidden">
 
           <div className="inline-flex items-center space-x-2 bg-indigo-500/10 border border-indigo-500/30 px-3.5 py-1.5 rounded-full text-indigo-300 text-xs font-semibold">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />

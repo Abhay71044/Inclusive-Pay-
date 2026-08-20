@@ -7,32 +7,32 @@
    1. CSS Custom Properties / Design Tokens
    -------------------------------------------------------------------------- */
 :root {
-  /* Brand Palette */
-  --bg-dark: #2e1930;
-  --bg-dark-alt: #1c0a1e;
-  --bg-surface: #3d2340;
-  --bg-surface-hover: #493b6e;
-  --bg-card-glass: rgba(46, 25, 48, 0.75);
+  /* Mobile App Brand Palette (Midnight Navy & Royal Electric Blue) */
+  --bg-dark: #0e1222;
+  --bg-dark-alt: #080b15;
+  --bg-surface: #141930;
+  --bg-surface-hover: #1d2444;
+  --bg-card-glass: rgba(20, 25, 48, 0.78);
 
   /* Gradients */
-  --hero-card-gradient: linear-gradient(135deg, #493b6e 0%, #965c7f 50%, #d89599 100%);
-  --accent-gradient: linear-gradient(135deg, #965c7f 0%, #d89599 100%);
-  --mic-gradient: linear-gradient(135deg, #965c7f 0%, #493b6e 100%);
-  --glow-indigo: rgba(150, 92, 127, 0.35);
-  --glow-accent: rgba(216, 149, 153, 0.45);
+  --hero-card-gradient: linear-gradient(135deg, #4f52f8 0%, #686bfb 50%, #8587fc 100%);
+  --accent-gradient: linear-gradient(135deg, #4f52f8 0%, #f43f5e 100%);
+  --mic-gradient: linear-gradient(135deg, #4f52f8 0%, #2c2eb0 100%);
+  --glow-indigo: rgba(79, 82, 248, 0.4);
+  --glow-accent: rgba(244, 63, 94, 0.45);
 
   /* Accent Colors */
-  --color-primary: #965c7f;
-  --color-primary-light: #d89599;
-  --color-primary-dark: #493b6e;
-  --color-accent-purple: #d89599;
+  --color-primary: #4f52f8;
+  --color-primary-light: #7a7df9;
+  --color-primary-dark: #2c2eb0;
+  --color-accent-purple: #f43f5e;
 
   /* Neutral Colors */
-  --text-main: #f8f5f7;
-  --text-muted: #d0c2cb;
-  --text-dim: #9d8896;
-  --border-light: rgba(216, 149, 153, 0.18);
-  --border-focus: #d89599;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  --border-light: rgba(79, 82, 248, 0.2);
+  --border-focus: #4f52f8;
 
   /* Status Colors */
   --color-success: #4ade80;

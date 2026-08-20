@@ -156,7 +156,7 @@ const DownloadHubView = () => {
               </div>
               <div className="w-full h-3 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700">
                 <div
-                  className="h-full bg-gradient-to-r from-[#965c7f] to-[#d89599] rounded-full transition-all duration-200"
+                  className="h-full bg-gradient-to-r from-[#4f52f8] to-[#f43f5e] rounded-full transition-all duration-200"
                   style={{ width: `${progress}%` }}
                 />
               </div>

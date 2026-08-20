@@ -90,7 +90,7 @@ const PersonaSwitcher = () => {
                 aria-selected={isActive}
                 onClick={() => handleSelectPersona(key)}
                 className={`flex items-center justify-center space-x-2.5 py-3.5 px-4 rounded-2xl font-semibold text-sm transition ${isActive
-                    ? 'bg-gradient-to-r from-[#965c7f] to-[#493b6e] text-white shadow-lg shadow-purple-950/40 scale-[1.02]'
+                    ? 'bg-gradient-to-r from-[#4f52f8] to-[#2c2eb0] text-white shadow-lg shadow-indigo-950/50 scale-[1.02]'
                     : 'bg-slate-900/80 hover:bg-slate-800/90 text-slate-300 border border-slate-800'
                   }`}
               >

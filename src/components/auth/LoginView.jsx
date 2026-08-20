@@ -4,17 +4,20 @@ import { useAccessibility } from '../../context/AccessibilityContext';
 import { Mic, Lock, Mail, ArrowRight, Zap, ShieldCheck, Volume2 } from 'lucide-react';
 
 const LoginView = () => {
-  const { loginLocal, loginWithGoogle, switchView } = useAuth();
+  const { loginLocal, loginWithGoogle, resendVerificationEmail, switchView } = useAuth();
   const { showToast, speak } = useAccessibility();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const [showResendBtn, setShowResendBtn] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [resending, setResending] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
+    setShowResendBtn(false);
 
     if (!email.trim() || !/\S+@\S+\.\S+/.test(email)) {
       setErrorMsg('Please enter a valid email address.');
@@ -36,7 +39,26 @@ const LoginView = () => {
       speak('Login successful! Redirecting to home page.');
     } else {
       setErrorMsg(res.error || 'Invalid email or password.');
+      if (res.isUnverified) {
+        setShowResendBtn(true);
+      }
       speak(`Login error: ${res.error || 'Invalid email or password.'}`);
+    }
+  };
+
+  const handleResend = async () => {
+    if (!email || !password) {
+      setErrorMsg('Please enter your email and password first.');
+      return;
+    }
+    setResending(true);
+    const res = await resendVerificationEmail(email, password);
+    setResending(false);
+    if (res.success) {
+      showToast(res.message);
+      speak('Verification email resent successfully! Check your inbox and spam folder.');
+    } else {
+      setErrorMsg(res.error || 'Failed to resend verification email.');
     }
   };
 
@@ -59,7 +81,7 @@ const LoginView = () => {
       <div className="w-full glass-card rounded-3xl border border-slate-800/80 overflow-hidden grid grid-cols-1 lg:grid-cols-12 shadow-2xl">
 
         {/* Left Graphics Panel */}
-        <div className="lg:col-span-6 bg-gradient-to-br from-[#493b6e]/60 via-[#2e1930] to-[#493b6e]/40 p-8 sm:p-12 flex flex-col justify-between text-left border-b lg:border-b-0 lg:border-r border-slate-800">
+        <div className="lg:col-span-6 bg-gradient-to-br from-[#4f52f8]/40 via-[#0e1222] to-[#4f52f8]/30 p-8 sm:p-12 flex flex-col justify-between text-left border-b lg:border-b-0 lg:border-r border-slate-800">
           <div className="space-y-6">
             <div className="inline-flex items-center space-x-2 bg-indigo-500/20 border border-indigo-500/30 px-3.5 py-1.5 rounded-full text-indigo-300 text-xs font-semibold">
               <Mic className="w-4 h-4 text-indigo-400" />
@@ -111,8 +133,20 @@ const LoginView = () => {
           </div>
 
           {errorMsg && (
-            <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-semibold flex items-center space-x-2">
-              <span>❌ {errorMsg}</span>
+            <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-semibold flex flex-col space-y-2">
+              <div className="flex items-center space-x-2">
+                <span>❌ {errorMsg}</span>
+              </div>
+              {showResendBtn && (
+                <button
+                  type="button"
+                  onClick={handleResend}
+                  disabled={resending}
+                  className="mt-1 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs w-fit transition shadow-sm"
+                >
+                  {resending ? 'Sending...' : '✉️ Resend Verification Link to Email'}
+                </button>
+              )}
             </div>
           )}
 

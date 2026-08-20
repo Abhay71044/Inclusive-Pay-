@@ -1,12 +1,14 @@
 import React from 'react';
 import { useAccessibility } from '../../context/AccessibilityContext';
-import { Eye, Volume2, VolumeX, Type } from 'lucide-react';
+import { Eye, Volume2, VolumeX, Type, Sun, Moon } from 'lucide-react';
 
 const AccessibilityBar = () => {
   const {
     increaseFontSize,
     decreaseFontSize,
     resetFontSize,
+    themeMode,
+    toggleThemeMode,
     isHighContrast,
     toggleHighContrast,
     isTTSEnabled,
@@ -47,6 +49,18 @@ const AccessibilityBar = () => {
             title="Increase font size"
           >
             A+
+          </button>
+          <button
+            onClick={toggleThemeMode}
+            className={`px-3 py-1 rounded text-xs transition flex items-center gap-1.5 border ${themeMode === 'light'
+              ? 'bg-amber-400 text-slate-950 font-bold border-amber-300'
+              : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
+              }`}
+            aria-label="Toggle Light/Dark Theme Mode"
+            title="Toggle Light or Dark Mode"
+          >
+            {themeMode === 'light' ? <Sun className="w-3.5 h-3.5 text-amber-950" /> : <Moon className="w-3.5 h-3.5 text-indigo-400" />}
+            <span>{themeMode === 'light' ? 'Light Mode' : 'Dark Mode'}</span>
           </button>
           <button
             onClick={toggleHighContrast}
