@@ -8,31 +8,31 @@
    -------------------------------------------------------------------------- */
 :root {
   /* Brand Palette */
-  --bg-dark: #243036;
-  --bg-dark-alt: #1b2428;
-  --bg-surface: #2d3b42;
-  --bg-surface-hover: #384952;
-  --bg-card-glass: rgba(36, 48, 54, 0.75);
+  --bg-dark: #2e1930;
+  --bg-dark-alt: #1c0a1e;
+  --bg-surface: #3d2340;
+  --bg-surface-hover: #493b6e;
+  --bg-card-glass: rgba(46, 25, 48, 0.75);
 
   /* Gradients */
-  --hero-card-gradient: linear-gradient(135deg, #2E5747 0%, #5E8262 50%, #9EB384 100%);
-  --accent-gradient: linear-gradient(135deg, #5E8262 0%, #9EB384 100%);
-  --mic-gradient: linear-gradient(135deg, #5E8262 0%, #2E5747 100%);
-  --glow-indigo: rgba(94, 130, 98, 0.35);
-  --glow-accent: rgba(158, 179, 132, 0.45);
+  --hero-card-gradient: linear-gradient(135deg, #493b6e 0%, #965c7f 50%, #d89599 100%);
+  --accent-gradient: linear-gradient(135deg, #965c7f 0%, #d89599 100%);
+  --mic-gradient: linear-gradient(135deg, #965c7f 0%, #493b6e 100%);
+  --glow-indigo: rgba(150, 92, 127, 0.35);
+  --glow-accent: rgba(216, 149, 153, 0.45);
 
   /* Accent Colors */
-  --color-primary: #5E8262;
-  --color-primary-light: #9EB384;
-  --color-primary-dark: #2E5747;
-  --color-accent-purple: #9EB384;
+  --color-primary: #965c7f;
+  --color-primary-light: #d89599;
+  --color-primary-dark: #493b6e;
+  --color-accent-purple: #d89599;
 
   /* Neutral Colors */
-  --text-main: #f5f7f5;
-  --text-muted: #a4b3a8;
-  --text-dim: #748579;
-  --border-light: rgba(158, 179, 132, 0.15);
-  --border-focus: #9EB384;
+  --text-main: #f8f5f7;
+  --text-muted: #d0c2cb;
+  --text-dim: #9d8896;
+  --border-light: rgba(216, 149, 153, 0.18);
+  --border-focus: #d89599;
 
   /* Status Colors */
   --color-success: #4ade80;

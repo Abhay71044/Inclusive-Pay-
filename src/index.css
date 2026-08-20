@@ -1,42 +1,42 @@
 @import "tailwindcss";
 
 @theme {
-  --color-slate-950: #1b2428;
-  --color-slate-900: #243036;
-  --color-slate-800: #2d3b42;
-  --color-slate-700: #384952;
-  --color-slate-600: #495e68;
+  --color-slate-950: #1c0a1e;
+  --color-slate-900: #2e1930;
+  --color-slate-800: #3d2340;
+  --color-slate-700: #493b6e;
+  --color-slate-600: #5d4d86;
 
-  --color-indigo-300: #b8ccaa;
-  --color-indigo-400: #9EB384;
-  --color-indigo-500: #628667;
-  --color-indigo-600: #5E8262;
-  --color-indigo-700: #2E5747;
-  --color-indigo-800: #244437;
-  --color-indigo-900: #1e362c;
-  --color-indigo-950: #162921;
+  --color-indigo-300: #e3a8ac;
+  --color-indigo-400: #d89599;
+  --color-indigo-500: #aa6a92;
+  --color-indigo-600: #965c7f;
+  --color-indigo-700: #493b6e;
+  --color-indigo-800: #3d2340;
+  --color-indigo-900: #2e1930;
+  --color-indigo-950: #1c0a1e;
 
-  --color-purple-300: #b8ccaa;
-  --color-purple-400: #9EB384;
-  --color-purple-500: #628667;
-  --color-purple-600: #5E8262;
-  --color-purple-700: #2E5747;
-  --color-purple-800: #244437;
-  --color-purple-900: #243036;
-  --color-purple-950: #1b2428;
+  --color-purple-300: #e3a8ac;
+  --color-purple-400: #d89599;
+  --color-purple-500: #aa6a92;
+  --color-purple-600: #965c7f;
+  --color-purple-700: #493b6e;
+  --color-purple-800: #3d2340;
+  --color-purple-900: #2e1930;
+  --color-purple-950: #1c0a1e;
 
-  --color-violet-400: #9EB384;
-  --color-violet-500: #628667;
-  --color-violet-600: #5E8262;
-  --color-violet-700: #2E5747;
+  --color-violet-400: #d89599;
+  --color-violet-500: #965c7f;
+  --color-violet-600: #884f72;
+  --color-violet-700: #493b6e;
 
-  --color-pink-400: #9EB384;
-  --color-pink-500: #5E8262;
+  --color-pink-400: #d89599;
+  --color-pink-500: #965c7f;
 
-  --color-palette-light: #9EB384;
-  --color-palette-sage: #5E8262;
-  --color-palette-forest: #2E5747;
-  --color-palette-dark: #243036;
+  --color-palette-light: #d89599;
+  --color-palette-sage: #965c7f;
+  --color-palette-forest: #493b6e;
+  --color-palette-dark: #2e1930;
 }
 
 @layer base {
@@ -87,10 +87,10 @@ body.high-contrast-mode .bg-slate-900\/80 {
 
 /* Custom Utilities for Glassmorphism & Animations */
 .glass-card {
-  background: rgba(36, 48, 54, 0.75);
+  background: rgba(46, 25, 48, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(158, 179, 132, 0.2);
+  border: 1px solid rgba(216, 149, 153, 0.2);
 }
 
 .glass-card-hover {
@@ -99,12 +99,12 @@ body.high-contrast-mode .bg-slate-900\/80 {
 
 .glass-card-hover:hover {
   transform: translateY(-4px);
-  border-color: rgba(158, 179, 132, 0.4);
-  box-shadow: 0 20px 40px -15px rgba(94, 130, 98, 0.35);
+  border-color: rgba(216, 149, 153, 0.4);
+  box-shadow: 0 20px 40px -15px rgba(150, 92, 127, 0.35);
 }
 
 .glow-purple {
-  box-shadow: 0 0 50px -10px rgba(94, 130, 98, 0.4);
+  box-shadow: 0 0 50px -10px rgba(150, 92, 127, 0.4);
 }
 
 /* Pulse Glow Animation */
@@ -112,11 +112,11 @@ body.high-contrast-mode .bg-slate-900\/80 {
 
   0%,
   100% {
-    box-shadow: 0 0 20px rgba(94, 130, 98, 0.4);
+    box-shadow: 0 0 20px rgba(150, 92, 127, 0.4);
   }
 
   50% {
-    box-shadow: 0 0 40px rgba(158, 179, 132, 0.7);
+    box-shadow: 0 0 40px rgba(216, 149, 153, 0.7);
   }
 }
 

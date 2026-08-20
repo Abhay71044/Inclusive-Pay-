@@ -34,7 +34,7 @@ const AboutSection = () => {
                 key={idx}
                 className="glass-card glass-card-hover rounded-2xl p-6 border border-slate-800/80 flex flex-col items-center justify-center text-center space-y-1"
               >
-                <div className="text-2xl sm:text-3xl font-extrabold text-transparent bg-gradient-to-r from-[#9EB384] to-[#5E8262] bg-clip-text">
+                <div className="text-2xl sm:text-3xl font-extrabold text-transparent bg-gradient-to-r from-[#d89599] to-[#965c7f] bg-clip-text">
                   {st.val}
                 </div>
                 <div className="text-xs font-medium text-slate-400">

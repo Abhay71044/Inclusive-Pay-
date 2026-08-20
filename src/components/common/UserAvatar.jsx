@@ -25,7 +25,7 @@ const UserAvatar = ({ user, className = "w-8 h-8 text-sm" }) => {
 
   return (
     <div
-      className={`${className} rounded-full bg-gradient-to-tr from-[#5E8262] via-[#2E5747] to-[#9EB384] flex items-center justify-center text-white font-extrabold uppercase shadow-sm border border-indigo-400/40 shrink-0 select-none`}
+      className={`${className} rounded-full bg-gradient-to-tr from-[#965c7f] via-[#493b6e] to-[#d89599] flex items-center justify-center text-white font-extrabold uppercase shadow-sm border border-indigo-400/40 shrink-0 select-none`}
     >
       {initial}
     </div>

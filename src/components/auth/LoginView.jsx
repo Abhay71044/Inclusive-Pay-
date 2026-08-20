@@ -59,7 +59,7 @@ const LoginView = () => {
       <div className="w-full glass-card rounded-3xl border border-slate-800/80 overflow-hidden grid grid-cols-1 lg:grid-cols-12 shadow-2xl">
 
         {/* Left Graphics Panel */}
-        <div className="lg:col-span-6 bg-gradient-to-br from-[#2E5747]/60 via-[#243036] to-[#2E5747]/40 p-8 sm:p-12 flex flex-col justify-between text-left border-b lg:border-b-0 lg:border-r border-slate-800">
+        <div className="lg:col-span-6 bg-gradient-to-br from-[#493b6e]/60 via-[#2e1930] to-[#493b6e]/40 p-8 sm:p-12 flex flex-col justify-between text-left border-b lg:border-b-0 lg:border-r border-slate-800">
           <div className="space-y-6">
             <div className="inline-flex items-center space-x-2 bg-indigo-500/20 border border-indigo-500/30 px-3.5 py-1.5 rounded-full text-indigo-300 text-xs font-semibold">
               <Mic className="w-4 h-4 text-indigo-400" />

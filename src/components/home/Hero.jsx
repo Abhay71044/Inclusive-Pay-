@@ -29,7 +29,7 @@ const Hero = () => {
   return (
     <section className="relative overflow-hidden pt-12 pb-20 md:py-24" id="home">
       {/* Background Radial Glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#5E8262]/20 rounded-full blur-[140px] pointer-events-none -z-10" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#965c7f]/20 rounded-full blur-[140px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
@@ -42,7 +42,7 @@ const Hero = () => {
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.15]">
-              InclusivePay – <span className="bg-gradient-to-r from-[#9EB384] via-[#7B9E76] to-[#5E8262] bg-clip-text text-transparent">Accessible UPI</span> for Everyone
+              InclusivePay – <span className="bg-gradient-to-r from-[#d89599] via-[#b8798c] to-[#965c7f] bg-clip-text text-transparent">Accessible UPI</span> for Everyone
             </h1>
 
             <p className="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl">
@@ -130,7 +130,7 @@ const Hero = () => {
                   </div>
 
                   {/* Gradient Bank Card Panel */}
-                  <div className="bg-gradient-to-br from-[#2E5747] via-[#5E8262] to-[#2E5747] rounded-2xl p-4 text-white shadow-xl shadow-slate-950/40 relative overflow-hidden mb-4 border border-indigo-400/20">
+                  <div className="bg-gradient-to-br from-[#493b6e] via-[#965c7f] to-[#493b6e] rounded-2xl p-4 text-white shadow-xl shadow-slate-950/40 relative overflow-hidden mb-4 border border-indigo-400/20">
                     <div className="flex justify-between items-start mb-3">
                       <span className="text-[11px] font-medium tracking-wide text-indigo-100/90">InclusivePay Digital Bank</span>
                       <button
@@ -200,7 +200,7 @@ const Hero = () => {
                     onClick={() => {
                       speak('Listening to your voice command... Say pay Ramesh 500 rupees');
                     }}
-                    className="w-14 h-14 rounded-full bg-gradient-to-tr from-[#2E5747] via-[#5E8262] to-[#9EB384] text-white flex items-center justify-center shadow-lg shadow-indigo-500/50 hover:scale-110 active:scale-95 transition animate-pulse-glow"
+                    className="w-14 h-14 rounded-full bg-gradient-to-tr from-[#493b6e] via-[#965c7f] to-[#d89599] text-white flex items-center justify-center shadow-lg shadow-indigo-500/50 hover:scale-110 active:scale-95 transition animate-pulse-glow"
                     aria-label="Activate Voice Assistant Command"
                   >
                     <Mic className="w-7 h-7" />
