@@ -55,8 +55,14 @@ const SignupView = () => {
     setLoading(false);
 
     if (res.success) {
-      showToast('🎉 Account created successfully! Welcome to InclusivePay.');
-      speak('Account created successfully! Redirecting to home page.');
+      if (res.requiresVerification) {
+        showToast('✉️ Verification email sent! Please check your inbox and click the link to verify.');
+        speak('Verification email sent to your inbox. Please check your email and verify before signing in.');
+        switchView('login');
+      } else {
+        showToast('🎉 Account created successfully! Welcome to InclusivePay.');
+        speak('Account created successfully!');
+      }
     } else {
       setErrorMsg(res.error || 'Registration failed.');
       speak(`Registration error: ${res.error}`);
