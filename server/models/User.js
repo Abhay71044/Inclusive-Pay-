@@ -5,6 +5,7 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true, lowercase: true, trim: true },
   password: { type: String }, // Hashed password for local users
   googleId: { type: String, sparse: true }, // Firebase UID / Google ID
+  firebaseUid: { type: String, sparse: true }, // Legacy Firebase UID
   profileImage: { type: String, default: '' },
   provider: { type: String, enum: ['google', 'local'], default: 'local' },
   role: { type: String, enum: ['user', 'admin'], default: 'user' },

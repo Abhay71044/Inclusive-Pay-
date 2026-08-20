@@ -35,7 +35,14 @@ if (!mongoUri || mongoUri.includes('<db_username>')) {
   console.warn('⚠️ WARNING: MONGODB_URI is not properly configured in server/.env file.');
 } else {
   mongoose.connect(mongoUri)
-    .then(() => console.log('✅ Connected successfully to MongoDB Atlas!'))
+    .then(async () => {
+      console.log('✅ Connected successfully to MongoDB Atlas!');
+      try {
+        await User.collection.dropIndex('firebaseUid_1');
+      } catch (e) {
+        // Index already dropped or not present
+      }
+    })
     .catch((err) => console.error('❌ MongoDB Connection Error:', err.message));
 }
 

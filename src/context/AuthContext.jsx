@@ -18,6 +18,54 @@ const AuthContext = createContext();
 
 const USERS_STORAGE_KEY = 'inclusivepay_registered_users';
 
+// Helper to sync Google user with MongoDB Atlas backend
+const syncGoogleUserWithBackend = async (firebaseUser) => {
+  const payload = {
+    uid: firebaseUser.uid,
+    email: firebaseUser.email,
+    displayName: firebaseUser.displayName || firebaseUser.email.split('@')[0],
+    photoURL: firebaseUser.photoURL || ''
+  };
+
+  const urlsToTry = [
+    `${API_BASE_URL}/api/auth/google-sync`,
+    'http://localhost:5000/api/auth/google-sync'
+  ];
+
+  for (const url of urlsToTry) {
+    try {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.user) {
+          return {
+            displayName: data.user.fullName || payload.displayName,
+            email: data.user.email,
+            photoURL: data.user.profileImage || payload.photoURL,
+            provider: 'google',
+            mongoId: data.user.id,
+            token: data.token
+          };
+        }
+      }
+    } catch (e) {
+      // Retry next endpoint fallback
+    }
+  }
+
+  // Local fallback if API is unreachable
+  return {
+    displayName: payload.displayName,
+    email: payload.email,
+    photoURL: payload.photoURL,
+    provider: 'google'
+  };
+};
+
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [activeView, setActiveView] = useState('home'); // home, login, signup, dashboard, download-hub, profile
@@ -33,14 +81,9 @@ export const AuthProvider = ({ children }) => {
       }
     }
 
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const userObj = {
-          displayName: user.displayName || user.email.split('@')[0],
-          email: user.email,
-          photoURL: user.photoURL || '',
-          provider: 'google'
-        };
+        const userObj = await syncGoogleUserWithBackend(user);
         setCurrentUser(userObj);
         localStorage.setItem('inclusivepay_active_user', JSON.stringify(userObj));
       }
@@ -75,12 +118,10 @@ export const AuthProvider = ({ children }) => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-      const userObj = {
-        displayName: user.displayName || user.email.split('@')[0],
-        email: user.email,
-        photoURL: user.photoURL || '',
-        provider: 'google'
-      };
+
+      // Sync Google user with MongoDB Atlas backend
+      const userObj = await syncGoogleUserWithBackend(user);
+
       setCurrentUser(userObj);
       localStorage.setItem('inclusivepay_active_user', JSON.stringify(userObj));
       setActiveView('home');
@@ -94,47 +135,58 @@ export const AuthProvider = ({ children }) => {
   const registerLocal = async (fullName, email, password) => {
     const cleanEmail = email.trim().toLowerCase();
 
-    // 1. Try Backend API Registration
-    try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fullName, email: cleanEmail, password })
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        // If backend returned error (e.g. duplicate email)
-        if (data.message) {
+    // 1. Try Backend API Registration with fallback
+    const payload = { fullName, email: cleanEmail, password };
+    const urlsToTry = [
+      `${API_BASE_URL}/api/auth/register`,
+      'http://localhost:5000/api/auth/register'
+    ];
+
+    let backendSuccess = false;
+    let backendUserObj = null;
+
+    for (const url of urlsToTry) {
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+        if (response.ok && data.success) {
+          backendSuccess = true;
+          backendUserObj = {
+            displayName: data.user.fullName || fullName,
+            email: data.user.email,
+            photoURL: data.user.profileImage || '',
+            provider: 'local',
+            mongoId: data.user.id,
+            token: data.token
+          };
+          break;
+        } else if (!response.ok && data.message) {
           return { success: false, error: data.message };
         }
+      } catch (e) {
+        // Try fallback endpoint
       }
-    } catch (e) {
-      console.warn("Backend registration API offline, using local client storage.");
     }
 
-    // Check duplicate in local storage
-    const users = getRegisteredUsers();
-    const existing = users.find(u => u.email.toLowerCase() === cleanEmail);
-    if (existing) {
-      return { success: false, error: 'An account with this email address already exists.' };
-    }
+    const activeUserObj = backendUserObj || {
+      displayName: fullName,
+      email: cleanEmail,
+      photoURL: '',
+      provider: 'local'
+    };
 
-    // Register user
-    const newUser = {
+    saveRegisteredUser({
       displayName: fullName,
       email: cleanEmail,
       password: password,
       photoURL: '',
       provider: 'local'
-    };
-    saveRegisteredUser(newUser);
+    });
 
-    const activeUserObj = {
-      displayName: fullName,
-      email: cleanEmail,
-      photoURL: '',
-      provider: 'local'
-    };
     setCurrentUser(activeUserObj);
     localStorage.setItem('inclusivepay_active_user', JSON.stringify(activeUserObj));
     setActiveView('home');
@@ -145,33 +197,43 @@ export const AuthProvider = ({ children }) => {
   const loginLocal = async (email, password) => {
     const cleanEmail = email.trim().toLowerCase();
 
-    // 1. Try Express/MongoDB Backend Login
-    try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: cleanEmail, password })
-      });
-      const data = await response.json();
-      if (response.ok && data.success) {
-        const userObj = {
-          displayName: data.user.fullName || cleanEmail.split('@')[0],
-          email: data.user.email,
-          photoURL: data.user.profileImage || '',
-          provider: 'local'
-        };
-        setCurrentUser(userObj);
-        localStorage.setItem('inclusivepay_active_user', JSON.stringify(userObj));
-        setActiveView('home');
-        return { success: true, user: userObj };
-      } else if (response.status === 400 && data.message) {
-        return { success: false, error: data.message };
+    // 1. Try Express/MongoDB Backend Login with fallback
+    const payload = { email: cleanEmail, password };
+    const urlsToTry = [
+      `${API_BASE_URL}/api/auth/login`,
+      'http://localhost:5000/api/auth/login'
+    ];
+
+    for (const url of urlsToTry) {
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+        if (response.ok && data.success) {
+          const userObj = {
+            displayName: data.user.fullName || cleanEmail.split('@')[0],
+            email: data.user.email,
+            photoURL: data.user.profileImage || '',
+            provider: 'local',
+            mongoId: data.user.id,
+            token: data.token
+          };
+          setCurrentUser(userObj);
+          localStorage.setItem('inclusivepay_active_user', JSON.stringify(userObj));
+          setActiveView('home');
+          return { success: true, user: userObj };
+        } else if (response.status === 400 && data.message) {
+          return { success: false, error: data.message };
+        }
+      } catch (e) {
+        // Try next fallback endpoint
       }
-    } catch (e) {
-      console.warn("Backend login API offline, verifying credentials with local store.");
     }
 
-    // 2. Fallback local credential verification
+    // 2. Fallback local credential verification if backend offline
     const users = getRegisteredUsers();
     const foundUser = users.find(u => u.email.toLowerCase() === cleanEmail);
 
